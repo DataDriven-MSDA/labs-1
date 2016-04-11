@@ -500,6 +500,7 @@ of the code on these cheatsheets may be too advanced for this course, however
 majority of it will become useful as you progress through the course material.
     - [Data wrangling cheatsheet](http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
     - [Data visualization cheatsheet](http://www.rstudio.com/wp-content/uploads/2015/12/ggplot2-cheatsheet-2.0.pdf)
+    - [R Markdown](http://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
 
 - While you will get plenty of exercise working with these packages in the labs of 
 this course, if you would like further opportunities to practice we recommend 

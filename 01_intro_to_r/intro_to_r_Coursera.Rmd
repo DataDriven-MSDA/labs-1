@@ -428,7 +428,7 @@ decreased over time.
 <li> False </li>
 </ol>
 
-```{r}
+```{r prop-boys-over-time}
 # type your code for Question 5 here, and Knit
 
 ```
@@ -443,7 +443,7 @@ variable which of the following statements is true?
 <li> Half of the years there are more boys born, and the other half more girls born. </li>
 </ol>
 
-```{r}
+```{r more-boys-per-year}
 # type your code for Question 6 here, and Knit
 
 ```
@@ -458,7 +458,7 @@ variable which of the following statements is true?
 <li> There is an initial decrease in the boy-to-girl ratio born but this number appears to level around 1960 and remain constant since then. </li>
 </ol>
 
-```{r}
+```{r prop-boy-girl-over-time}
 # type your code for Question 7 here, and Knit
 
 ```
@@ -476,7 +476,7 @@ descending order).
 <li> 2007 </li>
 </ol>
 
-```{r}
+```{r most-total-births}
 # type your code for Question 8 here
 # sample code is provided below, edit as necessary, uncomment, and then Knit
 #present %>%

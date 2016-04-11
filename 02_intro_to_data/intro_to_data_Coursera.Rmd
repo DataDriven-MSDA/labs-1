@@ -1,19 +1,7 @@
 ---
 title: "Introduction to data"
-output:
-  html_document:
-    css: ../lab.css
-    highlight: pygments
-    theme: cerulean
-  pdf_document: default
+output: statsr:::statswithr_lab
 ---
-
-```{r global_options, include=FALSE}
-knitr::opts_chunk$set(eval = FALSE)
-library(dplyr)
-library(ggplot2)
-load(url("https://stat.duke.edu/~mc301/data/nycflights.RData"))
-```
 
 <div id="instructions">
 Complete all **Exercises**, and submit answers to **Questions** on the Coursera 
@@ -23,20 +11,27 @@ platform.
 Some define statistics as the field that focuses on turning information into
 knowledge. The first step in that process is to summarize and describe the raw
 information - the data. In this lab we explore flights, specifically a random
-sample of `r nrow(nycflights)` domestic flights that departed from the three major 
+sample of domestic flights that departed from the three major 
 New York City airport in 2013. We will generate simple graphical and numerical 
 summaries of data on these flights and explore delay times. As this is a large 
 data set, along the way you'll also learn the indispensable skills of data 
 processing and subsetting.
 
+## Getting started
+
 ### Load packages
 
-```{r load-packages}
+In this lab we will explore the data using the `dplyr` package and visualize it 
+using the `ggplot2` package for data visualization. The data can be found in the
+companion package for this course, `statsr`.
+
+Let's load the packages.
+
+```{r load-packages, message=FALSE}
+library(statsr)
 library(dplyr)
 library(ggplot2)
 ```
-
-## Getting started
 
 ### Data
 
@@ -46,17 +41,17 @@ Technology Administration (RITA). As its name implies, BTS collects and makes
 available transportation data, such as the flights data we will be working with 
 in this lab.
 
-We begin by loading the data set of `r nrow(nycflights)` observations into the R 
-workspace. After launching RStudio, enter the following command.
+We begin by loading the `nycflights` data frame. Type the following in your console
+to load the data:
 
 ```{r load-data}
-load(url("https://stat.duke.edu/~mc301/data/nycflights.RData"))
+data(nycflights)
 ```
 
-The data set `nycflights` that shows up in your workspace is a *data matrix*, 
-with each row representing an *observation* and each column representing a 
-*variable*. R calls this data format a **data frame**, which is a term that will 
-be used throughout the labs.
+The data frame containing `r nrow(nycflights)` flights that shows up in your 
+workspace is a *data matrix*, with each row representing an *observation* and each 
+column representing a *variable*. R calls this data format a **data frame**, which is 
+a term that will be used throughout the labs.
 
 To view the names of the variables, type the command
 
@@ -65,7 +60,9 @@ names(nycflights)
 ```
 
 This returns the names of the variables in this data frame. The **codebook**
-(description of the variables) is included below.
+(description of the variables) is included below. This information can also be
+found in the help file for the data frame which can be accessed by typing
+`?nycflights` in the console.
 
 - `year`, `month`, `day`: Date of departure
 - `dep_time`, `arr_time`: Departure and arrival times, local timezone.
@@ -111,19 +108,6 @@ destination tend to be.
 - Or we might want to determine which of the three major NYC airports has a better 
 on time percentage for departing flights.
 
-### R Packages
-
-In this lab we will explore these questions using the `dplyr` package for data
-wrangling and the `ggplot2` package for data visualization. So let's load these 
-packages:
-
-```{r packages}
-library(ggplot2)
-library(dplyr)
-```
-
-Note that these two lines are also included in your R Markdown template.
-
 ### Seven verbs
 
 The `dplyr` package offers seven verbs (functions) for basic data 
@@ -139,6 +123,7 @@ manipulation:
 
 We will use some of these functions in this lab, and learn about others in a 
 future lab.
+
 
 ## Analysis
 
@@ -188,7 +173,7 @@ Let's decipher these three lines of code:
 save the result as a new data frame called `rdu_flights`.
     + `==` means "if it's equal to".
     + `RDU` is in quotation marks since it is a character string.
-- Line 2: Basically the same `qplot` call from earlier for making a histogram, 
+- Line 2: Basically the same `ggplot` call from earlier for making a histogram, 
 except that it uses the data frame for flights headed to RDU instead of all
 flights.
 
@@ -245,10 +230,37 @@ Note that we can separate the conditions using commas if we want flights that
 are both headed to SFO **and** in February. If we are interested in either
 flights headed to SFO **or** in February we can use the `|` instead of the comma.
 
-1. Create a new data frame that includes flights headed to SFO in February, and save this data frame as `sfo_feb_flights`. How many flights meet these criteria? <br><br> A) 68 <br> B) 1345 <br> C) 2286 <br> D) 3563 <br> E) 32735
+1. Create a new data frame that includes flights headed to SFO in February, and save 
+this data frame as `sfo_feb_flights`. How many flights meet these criteria? 
+<ol>
+<li> 68 </li> 
+<li> 1345 </li> 
+<li> 2286 </li> 
+<li> 3563 </li>
+<li> 32735 </li>
+</ol>
 
-1. Make a histogram and calculate appropriate summary statistics for **arrival** delays of `sfo_feb_flights`. Which of the following is false? <br><br> A) The distribution is unimodal. <br> B) The distribution is right skewed. <br> C) No flight is delayed more than 2 hours. <br> D) The distribution has several extreme values on the right side. <br> E) More than 50% of flights arrive on time or earlier than scheduled.
-    
+```{r sfo-feb-flights}
+# type your code for Question 1 here, and Knit
+
+```
+
+
+2. Make a histogram and calculate appropriate summary statistics for **arrival** 
+delays of `sfo_feb_flights`. Which of the following is false? 
+<ol>
+<li> The distribution is unimodal. </li> 
+<li> The distribution is right skewed. </li> 
+<li> No flight is delayed more than 2 hours. </li> 
+<li> The distribution has several extreme values on the right side. </li>
+<li> More than 50% of flights arrive on time or earlier than scheduled. </li>
+</ol>
+
+```{r sfo-feb-flights-arrival-delays}
+# type your code for Question 2 here, and Knit
+
+```
+
 Another useful functionality is being able to quickly calculate summary 
 statistics for various groups in your data frame. For example, we can modify the 
 above command using the `group_by` function to get the same summary stats for 
@@ -263,7 +275,21 @@ rdu_flights %>%
 Here, we first grouped the data by `origin`, and then calculated the summary 
 statistics.
 
-1.  Calculate the median and interquartile range for `arr_delay`s of flights in the `sfo_feb_flights` data frame, grouped by carrier. Which carrier is the has the hights IQR of arrival delays? <br><br> A) American Airlines <br> B) JetBlue Airways. <br> C) Virgin America <br> D) Delta and United Airlines. <br> E) Frontier Airlines
+3.  Calculate the median and interquartile range for `arr_delay`s of flights in the 
+`sfo_feb_flights` data frame, grouped by carrier. Which carrier is the has the hights 
+IQR of arrival delays? 
+<ol>
+<li> American Airlines </li> 
+<li> JetBlue Airways </li> 
+<li> Virgin America </li> 
+<li> Delta and United Airlines </li>
+<li> Frontier Airlines </li>
+</ol>
+
+```{r sfo-feb-flights-arrival-delays-carrier}
+# type your code for Question 3 here, and Knit
+
+```
 
 ### Departure delays over months
 
@@ -285,12 +311,47 @@ nycflights %>%
   arrange(desc(mean_dd))
 ```
 
-1.  Which month has the highest average departure delay from an NYC airport? <br><br> A) January <br> B) March <br> C) July <br> D) October <br> E) December
+4.  Which month has the highest average departure delay from an NYC airport? 
+<ol>
+<li> January </li> 
+<li> March </li> 
+<li> July </li> 
+<li> October </li>
+<li> December </li>
+</ol>
 
-1.  Which month has the highest median departure delay from an NYC airport? <br><br> A) January <br> B) March <br> C) July <br> D) October <br> E) December
+```{r highest-avg-dep-delay-month}
+# type your code for Question 4 here, and Knit
 
-1.  Is the mean and the median a more reliable measure for deciding which month(s) to avoid flying if you really dislike delayed flights, and why? <br><br> A) Mean would be more reliable as it gives us the true average. <br> B) Mean would be more reliable as the distribution of delays is symmetric. <br> C) Median would be more reliable as the distribution of delays is skewed. <br> D) Median would be more reliable as the distribution of delays is symmetric. <br> E) Both give us useful information.
-    
+```
+
+
+5.  Which month has the highest median departure delay from an NYC airport?
+<ol>
+<li> January </li> 
+<li> March </li> 
+<li> July </li> 
+<li> October </li>
+<li> December </li>
+</ol>
+
+```{r highest-median-dep-delay-month}
+# type your code for Question 5 here, and Knit
+
+```
+
+
+6.  Is the mean and the median a more reliable measure for deciding which month(s) to 
+avoid flying if you really dislike delayed flights, and why? 
+<ol>
+<li> Mean would be more reliable as it gives us the true average. </li> 
+<li> Mean would be more reliable as the distribution of delays is symmetric. </li> 
+<li> Median would be more reliable as the distribution of delays is skewed. </li> 
+<li> Median would be more reliable as the distribution of delays is symmetric. </li>
+<li> Both give us useful information. </li>
+</ol>
+
+
 We can also visualize the distributions of departure delays across months using 
 side-by-side box plots:
 
@@ -348,7 +409,18 @@ nycflights %>%
   arrange(desc(ot_dep_rate))
 ```
 
-1.  If you were selecting an airport simply based on on time departure percentage, which NYC airport would you choose to fly out of? <br><br> A) EWR <br> B) JFK <br> C) LGA
+7.  If you were selecting an airport simply based on on time departure percentage, 
+which NYC airport would you choose to fly out of? 
+<ol>
+<li> EWR </li> 
+<li> JFK </li> 
+<li> LGA </li> 
+</ol>
+
+```{r on-time-dep-perc-airport}
+# type your code for Question 7 here, and Knit
+
+```
 
 We can also visualize the distribution of on on time departure rate across 
 the three airports using a segmented bar plot.
@@ -358,19 +430,67 @@ ggplot(data = nycflights, aes(x = origin, fill = dep_type)) +
   geom_bar()
 ```
 
-1.  Mutate the data frame so that it includes a new variable that contains the average speed, `avg_speed` traveled by the plane for each flight (in mph). What is the tail number of the plane with the fastest `avg_speed`? **Hint:** Average speed can be calculated as distance divided by number of hours of travel, and note that `air_time` is given in minutes. If you just want to show the `avg_speed` and `tailnum` and none of the other variables, use the select function at the end of your pipe to select just these two variables with `select(avg_speed, tailnum)`. You can google this tail number to find out more about the aircraft. <br><br> A) N666DN <br> B) N755US <br> C) N779JB <br> D) N947UW <br> E) N959UW
+8.  Mutate the data frame so that it includes a new variable that contains the 
+average speed, `avg_speed` traveled by the plane for each flight (in mph). What is 
+the tail number of the plane with the fastest `avg_speed`? **Hint:** Average speed 
+can be calculated as distance divided by number of hours of travel, and note that 
+`air_time` is given in minutes. If you just want to show the `avg_speed` and 
+`tailnum` and none of the other variables, use the select function at the end of your 
+pipe to select just these two variables with `select(avg_speed, tailnum)`. You can 
+Google this tail number to find out more about the aircraft. 
+<ol>
+<li> N666DN </li> 
+<li> N755US </li> 
+<li> N779JB </li> 
+<li> N947UW </li> 
+<li> N959UW </li> 
+</ol>
 
-1.  Make a scatterplot of `avg_speed` vs. `distance`. Which of the following is true about the relationship between average speed and distance. <br><br> A) As distance increases the average speed of flights decreases. <br> B) The relationship is linear. <br> C) There is an overall postive association between distance and average speed. <br> D) There are no outliers. <br> E) The distribution of distances are uniform over 0 to 5000 miles.
+```{r fastest-avg-speed-tailnum}
+# type your code for Question 8 here, and Knit
 
-1.  Suppose you define a flight to be "on time" if it gets to the destination on time or earlier than expected, regardless of any departure delays. Mutate the data frame to create a new variable called `arr_type` with levels `"on time"` and `"delayed"` based on this definition. Then, determine the on time arrival percentage based on whether the flight departed on time or not. What percent of flights  that were `"delayed"` departing arrive `"on time"`? (Numeric input)
+```
+
+
+9.  Make a scatterplot of `avg_speed` vs. `distance`. Which of the following is true 
+about the relationship between average speed and distance. 
+<ol>
+<li> As distance increases the average speed of flights decreases. </li> 
+<li> The relationship is linear. </li> 
+<li> There is an overall postive association between distance and average speed.</li> 
+<li> There are no outliers. </li> 
+<li> The distribution of distances are uniform over 0 to 5000 miles. </li> 
+</ol>
+
+```{r avg-speed-dist-scatter}
+# type your code for Question 9 here, and Knit
+
+```
+
+
+10.  Suppose you define a flight to be "on time" if it gets to the destination on 
+time or earlier than expected, regardless of any departure delays. Mutate the data 
+frame to create a new variable called `arr_type` with levels `"on time"` and 
+`"delayed"` based on this definition. Then, determine the on time arrival percentage 
+based on whether the flight departed on time or not. What percent of flights  that 
+were `"delayed"` departing arrive `"on time"`? 
+[NUMERIC INPUT]
+
+```{r on-time-arr-perc}
+# type your code for Question 9 here, and Knit
+
+```
 
 <div id="exercise">
-**Exercise**: Replicate the following plot. **Hint:** The data frame plotted only contains flights from American Airlines, Delta Airlines, and United Airlines, and the points are `color`ed by `carrier`. Once you replicate the plot, determine (roughly) what the cutoff point is for departure delays where you can still expect to get to your destination on time.
+**Exercise**: Replicate the following plot. **Hint:** The data frame plotted only 
+contains flights from American Airlines, Delta Airlines, and United Airlines, and the 
+points are `color`ed by `carrier`. Once you replicate the plot, determine (roughly) 
+what the cutoff point is for departure delays where you can still expect to get to 
+your destination on time.
 </div>
+![intro_to_data_plot_recreate](intro_to_data_plot_recreate.png)
 
-```{r echo=FALSE, eval=TRUE, fig.width=7, fig.height=4}
-dl_aa_ua <- nycflights %>%
-  filter(carrier == "AA" | carrier == "DL" | carrier == "UA")
-ggplot(data = dl_aa_ua, aes(x = dep_delay, y = arr_delay, color = carrier)) +
-  geom_point()
+```{r plot-recreate}
+# type your code for the Exercise here, and Knit
+
 ```

@@ -1,0 +1,66 @@
+---
+title: "Bayes' Rule and the Two Armed Bandit"
+runtime: shiny
+---
+
+<div id="instructions">
+Complete all **Exercises**, and submit answers to **Questions** on the Coursera 
+platform.
+</div>
+
+Some people refer to slot machines as "One-armed Bandits" due to the older style of machine requiring the player to pull a handle to play. Like most other forms of gambling statisticians and mathematicians often develop theory / models based on games of chance. A very general class of probability / optimization problems are multi-armed bandits which are based on the following analogy: A player walks into a casino and sees a wall of slot machines in front of them, all of the machines pay out at different rates - some pay out more often than others. Since the player does not know which machines are good and which is bad, how should they play so that they make the most money (or at least lose as little as possible).
+
+Today we will examine a simplified case where there are only two machines (one "Good" and one "Bad"). We will also assume that we know the probability of winning on the "Good" machine and the probability of winning on the "Bad" machine - what we don't know is which machine is which.
+
+
+
+```{r bandit, echo=FALSE}
+good = sample(1:2,1)
+
+res = 
+row.names(res) = c("Machine 1", "Machine 2")
+
+shinyApp(
+    ui = fluidPage(
+        fluidRow(
+            column(width=2,
+                h4("Machine 1"),
+                actionButton("m1_play","Play!")
+            ),
+            column(width=2,
+                h4("Machine 2"),
+                actionButton("m2_play","Play!")
+            )
+        ),
+        br(),
+        h4("Results:"),
+        tableOutput("tab"),
+        br(),
+        h4("Guess:"),
+        fluidRow(
+            actionButton("m1_guess","Machine 1 good"),
+            actionButton("m2_guess","Machine 2 good"),
+            actionButton("reset", "Reset")
+        ),
+        textOutput("result")
+    ),
+    server = function(input, output)
+    {
+        values = reactiveValues(
+                    res = data.frame(Wins=c(0L,0L),
+                                     Loses=c(0L,0L),
+                                     Plays=c(0L,0L))
+                 )
+
+        
+
+        output$tab = renderTable(values$res)
+    }
+)
+```
+
+
+
+<div id="license">
+This is a derivative of an [OpenIntro](https://www.openintro.org/stat/labs.php) lab, and is released under a [Attribution-NonCommercial-ShareAlike 3.0 United States](https://creativecommons.org/licenses/by-nc-sa/3.0/us/) license.
+</div>

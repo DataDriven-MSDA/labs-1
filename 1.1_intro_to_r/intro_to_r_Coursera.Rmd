@@ -466,7 +466,7 @@ variable which of the following statements is true?
 8. In what year did we see the most total number of births in the U.S.? *Hint:* Sort 
 your dataset in descending order based on the `total` column. You can do this 
 interactively in the data viewer by clicking on the arrows next to the variable 
-names. Or to arrange the data in a descenting order with new function: `descr` (for 
+names. Or to arrange the data in a descenting order with new function: `desc` (for 
 descending order).
 <ol>
 <li> 1940 </li>

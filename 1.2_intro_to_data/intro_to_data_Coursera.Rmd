@@ -480,17 +480,3 @@ were `"delayed"` departing arrive `"on time"`?
 # type your code for Question 9 here, and Knit
 
 ```
-
-<div id="exercise">
-**Exercise**: Replicate the following plot. **Hint:** The data frame plotted only 
-contains flights from American Airlines, Delta Airlines, and United Airlines, and the 
-points are `color`ed by `carrier`. Once you replicate the plot, determine (roughly) 
-what the cutoff point is for departure delays where you can still expect to get to 
-your destination on time.
-</div>
-![intro_to_data_plot_recreate](intro_to_data_plot_recreate.png)
-
-```{r plot-recreate}
-# type your code for the Exercise here, and Knit
-
-```

@@ -86,7 +86,7 @@ To investigate the link between these two ways of organizing this data, take a l
 
 Create a new dataframe called `us12` that contains only the rows in `atheism` associated with respondents to the 2012 survey from the United States:
 
-```{r us-atheism, eval=FALSE}
+```{r us-atheism}
 us12 <- atheism %>%
   filter(nationality == "United States" , atheism$year == "2012")
 ```
@@ -115,7 +115,7 @@ The inferential tools for estimating population proportion are analogous to thos
 
 If the conditions for inference are reasonable, we can either calculate the standard error and construct the interval by hand, or allow the `inference` function to do it for us.
 
-```{r us-atheism-ci, eval=FALSE, tidy = FALSE}
+```{r us-atheism-ci}
 inference(y = response, data = us12, statistic = "proportion", type = "ci", method = "theoretical", success = "atheist")
 ```
 
@@ -154,7 +154,7 @@ Think back to the formula for the standard error: $SE = \sqrt{p(1-p)/n}$. This i
 
 The first step is to make a vector `p` that is a sequence from $0$ to $1$ with each number separated by $0.01$. We can then create a vector of the margin of error (`me`) associated with each of these values of `p` using the familiar approximate formula ($ME = 1.96 \times SE$). Lastly, we plot the two vectors against each other to reveal their relationship.
 
-```{r me-plot, eval=FALSE}
+```{r me-plot}
 d <- data.frame(p <- seq(0, 1, 0.01))
 n <- 1000
 d <- d %>%

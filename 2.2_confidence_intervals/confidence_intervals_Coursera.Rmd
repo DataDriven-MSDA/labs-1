@@ -82,6 +82,10 @@ samp <- sample_n(ames, n)
 say is the "typical" size within your sample? Also state precisely what you 
 interpreted "typical" to mean.
 </div>
+```{r describe-sample}
+# type your code for the Exercise here, and Knit
+
+```
 
 1. True or False: My distribution should be similar to others' distributions who also collect random samples from this population, but it is likely not exactly the same since it's a random sample.
 <ol>
@@ -162,6 +166,10 @@ params <- ames %>%
 **Exercise**: Does your confidence interval capture the true average size of houses in 
 Ames?
 </div>
+```{r check-ci-contain-true-mean}
+# type your code for the Exercise here, and Knit
+
+```
 
 4. What proportion of 95% confidence intervals would you expect to capture the true population mean?
 <ol>
@@ -261,8 +269,7 @@ ggplot(data = ci_data, aes(x = ci_bounds, y = ci_id,
 
 <div id="exercise">
 **Exercise**: What proportion of your confidence intervals include the true population mean? 
-Is this proportion exactly equal to the confidence level? If not, explain why. Make 
-sure to include your plot in your answer.
+Is this proportion exactly equal to the confidence level? If not, explain why.
 </div>
 
 
@@ -274,8 +281,18 @@ sure to include your plot in your answer.
 <li> 2.33 </li>
 <li> 2.58 </li>
 </ol>
+```{r find-99-perc-crit-val}
+# type your code for the Question 5 here, and Knit
 
-Calculate 50 confidence intervals at the 99% confidence level. You do not need to obtain new samples, simply calculate new intervals based on the sample means and standard deviations you have already collected. Using the `plot_ci` function, plot all intervals and calculate the proportion of intervals that include the true population mean.
+```
+
+<div id="exercise">
+**Exercise**: Calculate 50 confidence intervals at the 99% confidence level. You do not need to obtain new samples, simply calculate new intervals based on the sample means and standard deviations you have already collected. Plot all intervals and calculate the proportion of intervals that include the true population mean.
+</div>
+```{r plot-99-perc-cis}
+# type your code for the Exercise here, and Knit
+
+```
 
 6. We would expect 99% of the intervals to contain the true population mean.
 <ol>

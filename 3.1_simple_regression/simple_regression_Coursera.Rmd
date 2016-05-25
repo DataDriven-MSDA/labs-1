@@ -70,9 +70,14 @@ work with the three newer variables on your own.
 <li> horseshoe-shaped ($\cap$) </li>  
 <li> u-shaped ($\cup$) </li>
 </ol>
+```{r runs-vs-at_bats}
+# type your code for Question 2 here, and Knit
+
+```
 
 <div id="exercise">
-**Exercise**: If you knew a team's `at_bats`, would you be comfortable using a linear model to predict their number of runs?
+**Exercise**: If you knew a team's `at_bats`, would you be comfortable using 
+a linear model to predict their number of runs?
 </div>
 
 If the relationship looks linear, we can quantify the strength of the
@@ -137,7 +142,9 @@ Note that the output from the `plot_ss` function provides you with the slope and
 intercept of your line as well as the sum of squares.
 
 <div id="exercise">
-**Exercise**: Using `plot_ss`, choose a line that does a good job of minimizing the sum of squares.  Run the function several times.  Report your smallest sum of squares.
+**Exercise**: Using `plot_ss`, choose a line that does a good job of minimizing 
+the sum of squares.  Run the function several times.  Report your smallest sum 
+of squares.
 </div>
 
 ## The linear model
@@ -189,6 +196,10 @@ explained by at-bats.
 <li> For each additional home run, the model predicts 415.24 more runs, on average. </li> 
 <li> For each additional home run, the model predicts 415.24 fewer runs, on average. </li>
 </ol>
+```{r homeruns-vs-runs}
+# type your code for Question 4 here, and Knit
+
+```
 
 ## Prediction and prediction errors
 
@@ -210,7 +221,9 @@ However, predictions made within the range of the data are more reliable.
 They're also used to compute the residuals.
 
 <div id="exercise">
-**Exercise**: If a team manager saw the least squares regression line and not the actual data, how many runs would he or she predict for a team with 5,579 at-bats? Is this an overestimate or an underestimate, and by how much?
+**Exercise**: If a team manager saw the least squares regression line and 
+not the actual data, how many runs would he or she predict for a team with 
+5,579 at-bats? Is this an overestimate or an underestimate, and by how much?
 </div>
 
 To find the observed number of runs for the team with 5,579 at bats you can use the following:
@@ -229,6 +242,10 @@ value of the `runs variable for that observation.
 <li> 713 </li>
 <li> 5579 </li>
 </ol>
+```{r residual}
+# type your code for Question 5 here, and Knit
+
+```
 
 ## Model diagnostics
 
@@ -291,12 +308,26 @@ Note that the syntax for making a normal probability plot is a bit different tha
 </ol>
 
 <div id="exercise">
-**Exercise**: Choose another one of the seven traditional variables from `mlb11` besides `at_bats` that you think might be a good predictor of `runs`. Produce a scatterplot of the two variables and fit a linear model. At a glance, does there seem to be a linear relationship?
+**Exercise**: Choose another one of the seven traditional variables from 
+`mlb11` besides `at_bats` that you think might be a good predictor of `runs`. 
+Produce a scatterplot of the two variables and fit a linear model. At a glance, 
+does there seem to be a linear relationship?
 </div>
+```{r runs-vs-sth-else}
+# type your code for the Exercise here, and Knit
+
+```
 
 <div id="exercise">
-**Exercise**: How does this relationship compare to the relationship between `runs` and `at_bats`? Use the R$^2$ values from the two model summaries to compare. Does your variable seem to predict `runs` better than `at_bats`? How can youtell?
+**Exercise**: How does this relationship compare to the relationship between 
+`runs` and `at_bats`? Use the R$^2$ values from the two model summaries to 
+compare. Does your variable seem to predict `runs` better than `at_bats`? How 
+can you tell?
 </div>
+```{r pick-model}
+# type your code for the Exercise here, and Knit
+
+```
 
 9. Now that you can summarize the linear relationship between two variables, investigate the relationships between `runs` and each of the other five traditional variables. Which variable best predicts `runs`? Support your conclusion using the graphical and numerical methods we've discussed.
 <ol>
@@ -305,6 +336,10 @@ Note that the syntax for making a normal probability plot is a bit different tha
 <li> wins </li>
 <li> batting average </li>
 </ol>
+```{r runs-vs-others}
+# type your code for Question 9 here, and Knit
+
+```
 
 10. Now examine the three newer variables.  These are the statistics used by the author of *Moneyball* to predict a teams success.  In general, are they more or less effective at predicting runs that the old variables?  Explain using appropriate graphical and numerical evidence.  Of all ten variables we've analyzed, which seems to be the best predictor of `runs`? 
 <ol>
@@ -312,10 +347,19 @@ Note that the syntax for making a normal probability plot is a bit different tha
 <li> slugging percentage (`new_slug`) </li> 
 <li> on-base percentage (`new_onbase`) </li>
 </ol>
+```{r runs-vs-new-vars}
+# type your code for Question 10 here, and Knit
+
+```
 
 <div id="exercise">
-**Exercise**: Check the model diagnostics for the regression model with the variable you decided was the best predictor for runs.
+**Exercise**: Check the model diagnostics for the regression model with the 
+variable you decided was the best predictor for runs.
 </div>
+```{r diag}
+# type your code for the Exercise here, and Knit
+
+```
 
 <div id="license">
 This is a product of OpenIntro that is released under a [Creative Commons 

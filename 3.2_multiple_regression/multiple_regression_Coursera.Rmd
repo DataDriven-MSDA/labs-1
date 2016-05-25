@@ -141,12 +141,20 @@ variable         | description
 <li> 11 of students gave a professor a score below 3. </li> 
 <li> The left skewness of the data suggests that the students are less likely to rate the professors highly. </li>
 </ol>
+```{r score-dist}
+# type your code for Question 3 here, and Knit
+
+```
 
 <div id="exercise">
 **Exercise:** Excluding `score`, select two other variables and describe their 
 relationship using an appropriate visualization (scatterplot, side-by-side boxplots, 
 or mosaic plot).
 </div>
+```{r two-vars-eda}
+# type your code for the Exercise here, and Knit
+
+```
 
 ## Simple linear regression
 
@@ -168,6 +176,10 @@ Is anything awry?
 with a `geom_jitter()` layer. (Use `?geom_jitter` to learn more.)  What was misleading 
 about the initial scatterplot?
 </div>
+```{r jitter}
+# type your code for the Exercise here, and Knit
+
+```
 
 Let's see if the apparent trend in the plot is something more than 
 natural variation.  Fit a linear model called `m_bty` to predict average professor 
@@ -190,8 +202,13 @@ ggplot(data = evals, aes(x = bty_avg, y = score)) +
 ```
 
 <div id="exercise">
-**Exercise:** Write out the equation for the linear model and interpret the slope. 
+**Exercise:** Print a summary of the linear model, write out the equation, and 
+interpret the slope. 
 </div>
+```{r summary-model}
+# type your code for the Exercise here, and Knit
+
+```
 
 4. Average beauty score is a statistically significant predictor of evaluation score. 
 <ol> 
@@ -206,6 +223,10 @@ ggplot(data = evals, aes(x = bty_avg, y = score)) +
 <li> Nearly normal residuals: Residuals are right skewed, but the sample size is large, so this may not be an important violation of conditions. </li>
 <li> Independent observations: Classes sampled randomly, no order effect. </li>
 </ol>
+```{r diag-score-bty_avg}
+# type your code for the Question 5 here, and Knit
+
+```
 
 ## Multiple linear regression
 
@@ -227,7 +248,7 @@ calculated using the individual scores. We can actually take a look at the
 relationships between all beauty variables (columns 13 through 19) using the 
 following command:
 
-```{r bty-rels}
+```{r bty-rels, fig.width = 12, fig.height= 5}
 ggpairs(evals, columns = 13:19)
 ```
 
@@ -250,11 +271,21 @@ summary(m_bty_gen)
 <li> True </li>
 <li> False </li>
 </ol>
+</div>
+```{r diag-mlr-model}
+# type your code for the Exercise here, and Knit
+
+```
 
 <div id="exercise">
-**Exercise:** Is `bty_avg` still a significant predictor of `score`?  Has the 
-addition of `gender` to the model changed the parameter estimate for `bty_avg`?
+**Exercise:** Print a summary of the multiple linear regression model.  Is `bty_avg` 
+still a significant predictor of `score`?  Has the addition of `gender` to the 
+model changed the parameter estimate for `bty_avg`?
 </div>
+```{r summary-mlr-model}
+# type your code for the Exercise here, and Knit
+
+```
 
 Note that the estimate for `gender` is now called `gendermale`. You'll see this 
 name change whenever you introduce a categorical variable. The reason is that R 
@@ -290,6 +321,10 @@ Use `?relevel` to learn more.)
 more than two levels? Note that the rank variable has three levels: teaching, 
 tenure track, tenured.
 </div>
+```{r new-mlr-model}
+# type your code for the Exercise here, and Knit
+
+```
 
 8. Which of the following is the correct order of the three levels of rank if we were to order them from lowest predicted course evaluation score to highest predicted course evaluation score? 
 <ol>
@@ -334,7 +369,7 @@ summary(m_full)
 output in your response.
 </div>
 
-9 Which of the following is the correct intrepetation of the coefficient associated with the ethnicity variable. <br> Non-minority professors are expected on average to score ... 
+9. Which of the following is the correct intrepetation of the coefficient associated with the ethnicity variable. <br> Non-minority professors are expected on average to score ... 
 <ol>
 <li> 0.19 points lower than minority professors, all else held constant. </li>
 <li> 0.19 points higher than minority professors, all else held constant. </li> 
@@ -350,6 +385,10 @@ estimates depend on the other variables that are included in the model.) If not,
 what does this say about whether or not the dropped variable was collinear with 
 the other explanatory variables?
 </div>
+```{r p-val-select}
+# type your code for the Exercise here, and Knit
+
+```
 
 Now we try a different model selection method: adjusted $R^2$. Create a new model, 
 `m1`, where you remove `rank` from the list of explanatory variables. Check out the 
@@ -374,6 +413,10 @@ summary(m2)$adj.r.squared
 from the full model at a time, and determine removal of which variable yields 
 the highest improvement in the adjusted $R^2$.
 </div>
+```{r adj-rsq-select}
+# type your code for the Exercise here, and Knit
+
+```
 
 10. Elimination of which variable from the full model yielded the highest adjusted R-squared? 
 <ol>

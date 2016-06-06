@@ -206,7 +206,8 @@ explained by at-bats.
 Let's create a scatterplot with the least squares line for `m1` laid on top.
 
 ```{r reg-with-line}
-qplot(x = at_bats, y = runs, data = mlb11, geom = "point") +
+ggplot(data = mlb11, aes(x = at_bats, y = runs)) +
+  geom_point() +
   stat_smooth(method = "lm", se = FALSE)
 ```
 

@@ -6,6 +6,7 @@ output: statsr:::statswithr_lab
 
 ```{r echo=FALSE}
 suppressMessages(library(magrittr))
+suppressMessages(library(statsr))
 ```
 
 <div id="instructions">
@@ -24,161 +25,7 @@ The Shiny App below will let you simulate playing slot machines when the probabi
 
 
 ```{r bandit, echo=FALSE}
-shinyApp(
-    ui = fluidPage(
-      tags$head(
-        tags$style(type="text/css", '.fa-slot-machine:before {content: "\\1f3b0"}')
-      ),
-
-      column(width=4,
-        fluidRow(
-            column(width=5,
-                h4("Machine 1:"),
-                actionButton("m1_play","Play!", class="btn btn-primary",
-                             width="100px", style="white-space: normal;",
-                             icon=icon("slot-machine",class="fa-3x"))
-            ),
-            column(width=1),
-            column(width=5,
-                h4("Machine 2:"),
-                actionButton("m2_play","Play!", class="btn btn-success",
-                             width="100px", style="white-space: normal;",
-                             icon=icon("slot-machine",class="fa-3x"))
-            )
-        ),
-        br(),
-        h4("Results:"),
-        tableOutput("tab")
-      ),
-      column(width=4,
-        h4("Events:"),
-
-        tabsetPanel(type = "tabs", 
-          tabPanel(
-            "Log", 
-            wellPanel(
-              id = "tPanel",
-              style = "overflow-y:scroll; max-height: 220px",
-              htmlOutput("res")
-            )
-          ), 
-          tabPanel(
-            "Data", 
-            wellPanel(
-              id = "tPanel",
-              style = "overflow-y:scroll; max-height: 220px",
-              verbatimTextOutput("data")
-            )
-          )
-        )
-
-      ),
-      column(width=4,
-        h4("Decision:"),
-        actionButton("m1_guess","Machine 1 is good", class="btn btn-primary"),
-        br(),br(),
-        actionButton("m2_guess","Machine 2 is good", class="btn btn-success"),
-        br(),br(),
-        h4(textOutput("guess")),
-        br(),br(),
-        actionButton("reset", "Reset", class="btn btn-danger")
-      )
-    ),
-    server = function(input, output)
-    {
-        values = reactiveValues(
-                    tab = data.frame(Wins=c(0L,0L),
-                                     Loses=c(0L,0L),
-                                     Plays=c(0L,0L),
-                                     row.names = c("Machine 1", "Machine 2")),
-                    good = sample(1:2,1),
-                    res = data.frame(play=integer(),
-                                     machine=integer(),
-                                     outcome=character())
-                 )
-        
-        observeEvent(input$m1_play, {
-          win = rbinom(1, 1, ifelse(values$good == 1, 1/2, 1/3))
-          if (win)
-            values$tab[1,c(1,3)] = values$tab[1,c(1,3)] + 1L
-          else
-            values$tab[1,c(2,3)] = values$tab[1,c(2,3)] + 1L
-          
-          values$res = rbind(data.frame(play = nrow(values$res)+1L,
-                                        machine = 1L,
-                                        outcome = ifelse(win,"W","L"),
-                                        stringsAsFactors = FALSE),
-                             values$res)
-
-          #values$res = c(values$res, 
-          #               paste("You", ifelse(win, "won", "lost"), "playing machine 1."))
-        })
-        
-        observeEvent(input$m2_play, {
-          win = rbinom(1, 1, ifelse(values$good == 2, 1/2, 1/3))
-          if (win)
-            values$tab[2,c(1,3)] = values$tab[2,c(1,3)] + 1L
-          else
-            values$tab[2,c(2,3)] = values$tab[2,c(2,3)] + 1L
-          
-          values$res = rbind(data.frame(play=nrow(values$res)+1L,
-                                        machine = 2L,
-                                        outcome = ifelse(win,"W","L"),
-                                        stringsAsFactors = FALSE),
-                             values$res)
-
-          #values$res = c(paste("You", ifelse(win, "won", "lost"), "playing machine 2."),
-          #               values$res)
-        })
-        
-        observeEvent(input$reset, {
-          values$tab[] = 0L
-          #values$res = c()
-          values$res = data.frame(play=integer(),machine=integer(),outcome=character())
-          values$good = sample(1:2,1)
-          output$guess = renderText("")
-        })
-        
-        observeEvent(input$m1_guess, {
-          output$guess = renderText(
-                           paste0("You guessed ", 
-                                  ifelse(values$good == 1, 
-                                         "correctly",
-                                         "incorrectly"),
-                                  ".")
-                         )
-        })
-        
-        observeEvent(input$m2_guess, {
-          output$guess = renderText(
-                           paste0("You guessed ",
-                                  ifelse(values$good == 2, 
-                                         "correctly",
-                                         "incorrectly"),
-                                  ".")
-                         )
-        })
-        
-        output$data = renderText({
-                        n = nrow(values$res)
-                        if (n==0)
-                          return("")
-
-                        df = values$res[n:1,]
-                        
-                        m = paste0(paste0(df$machine,collapse="L, "),"L")
-                        o = paste0('"',paste0(df$outcome, collapse='", "'),'"')
-
-                        paste0("data = data.frame(",
-                               "machine = c(",m,"), ",
-                               "outcome = c(",o,"))")
-                      })
-        output$tab = renderTable(values$tab, align="lccc")
-        output$res = renderTable(values$res,
-                                 include.rownames=FALSE,
-                                 align="cccc")
-    }
-)
+bandit_sim()
 ```
 
 <div id="exercise">
@@ -272,75 +119,48 @@ $$
 
 ## Bayesian Updating
 
-```{r echo=FALSE}
-data = data.frame(machine = c(1L, 1L, 1L, 1L, 1L, 2L, 2L, 2L, 2L, 2L), 
-                  outcome = c("W", "L", "W", "L", "L", "W", "L", "L", "L", "W"))
-
-slot_posterior = function(data, prior = c(m1_good=0.5,m2_good=0.5), win_probs = c(good=1/2,bad=1/3))
-{
-  if(length(names(prior)) == 0)
-    names(prior) = c("m1_good","m2_good")
-  if(length(names(win_probs)) == 0)
-    names(prior) = c("good","bad")
-
-  m1_good_and_data = prior["m1_good"] * win_probs["good"]^sum(data$machine==1L & data$outcome=="W")  *
-                                     (1-win_probs["good"])^sum(data$machine==1L & data$outcome=="L") *
-                                        win_probs["bad"]^sum(data$machine==2L & data$outcome=="W")   *
-                                     (1-win_probs["bad"])^sum(data$machine==2L & data$outcome=="L")
-
-  m2_good_and_data = prior["m2_good"] * win_probs["bad"]^sum(data$machine==1L & data$outcome=="W")  *
-                                     (1-win_probs["bad"])^sum(data$machine==1L & data$outcome=="L") *
-                                        win_probs["good"]^sum(data$machine==2L & data$outcome=="W")   *
-                                     (1-win_probs["good"])^sum(data$machine==2L & data$outcome=="L")
-  return(
-    c(m1_good_and_data / (m1_good_and_data + m2_good_and_data),
-      m2_good_and_data / (m1_good_and_data + m2_good_and_data))
-  )
-}
-```
-
-We have implemented a function for calculating the posterior probability of Machine 1 and Machine 2 being the "good" machine after one or more plays of either machine. The function `slot_posterior` expects a data frame representing your play history that contains two columns, `machine` which records which machine was played (e.g. either a 1 or 2) and `outcome` which records whether you won (`"W"`) or lost (`"L"`). We can repeat the calculation from the previous section using the following code
+We have implemented a function for calculating the posterior probability of Machine 1 and Machine 2 being the "good" machine after one or more plays of either machine. The function `bandit_posterior` expects a data frame representing your play history that contains two columns, `machine` which records which machine was played (e.g. either a 1 or 2) and `outcome` which records whether you won (`"W"`) or lost (`"L"`). We can repeat the calculation from the previous section using the following code
 
 ```{r}
-slot_posterior(data = data.frame(machine=1L, outcome="W"))
+bandit_posterior(data = data.frame(machine=1L, outcome="W"))
 ```
 
 We can also use this function to calculate the posterior probabilities for additional plays, for example playing Machine 1 twice, first winning and then losing.
 
 ```{r}
-slot_posterior(data = data.frame(machine=c(1L,1L), outcome=c("W","L")))
+bandit_posterior(data = data.frame(machine=c(1L,1L), outcome=c("W","L")))
 ```
 
-We have discussed how the Bayesian approach allows for updating procedures where for each new data observation we are able to use the previous posterior probabilities as our new prior probabilities and thereby simplify the calculation (e.g. multiple simple updates can be used instead of one single large calculation). We can explore this process by chaining multiple calls to `slot_posterior` together by using the returned posterior values as the prior in the next call.
+We have discussed how the Bayesian approach allows for updating procedures where for each new data observation we are able to use the previous posterior probabilities as our new prior probabilities and thereby simplify the calculation (e.g. multiple simple updates can be used instead of one single large calculation). We can explore this process by chaining multiple calls to `bandit_posterior` together by using the returned posterior values as the prior in the next call.
 
 ```{r}
 data1 = data.frame(machine=c(1L), outcome=c("W"))
 data2 = data.frame(machine=c(1L), outcome=c("L"))
-slot_posterior(data1) %>% slot_posterior(data2, prior=.)
+bandit_posterior(data1) %>% bandit_posterior(data2, prior=.)
 ```
 
 Note that this exactly matches the probabilities we calculated when we provided the data all at once.
 
-5. Using the `slot_posterior` function calculate the posterior probabilities of Machine 1 and 2 being "good" after playing Machine 1 twice and winning both times and then playing Machine 2 three times and winning twice and then losing.
+5. Using the `bandit_posterior` function calculate the posterior probabilities of Machine 1 and 2 being "good" after playing Machine 1 twice and winning both times and then playing Machine 2 three times and winning twice and then losing.
 <ol>
-<li> $P(M_1~|~\text{data}) = 0.250$, $P(M_2~|~\text{data}) = 0.750$ </li>
-<li> $P(M_1~|~\text{data}) = 0.429$, $P(M_2~|~\text{data}) = 0.571$ </li>
-<li> $P(M_1~|~\text{data}) = 0.571$, $P(M_2~|~\text{data}) = 0.429$ </li>
-<li> $P(M_1~|~\text{data}) = 0.750$, $P(M_2~|~\text{data}) = 0.250$ </li>
+<li> $P(M_1\text{ is good}~|~\text{data}) = 0.250$, $P(M_2\text{ is good}~|~\text{data}) = 0.750$ </li>
+<li> $P(M_1\text{ is good}~|~\text{data}) = 0.429$, $P(M_2\text{ is good}~|~\text{data}) = 0.571$ </li>
+<li> $P(M_1\text{ is good}~|~\text{data}) = 0.571$, $P(M_2\text{ is good}~|~\text{data}) = 0.429$ </li>
+<li> $P(M_1\text{ is good}~|~\text{data}) = 0.750$, $P(M_2\text{ is good}~|~\text{data}) = 0.250$ </li>
 </ol>
 
 
 5. What would the posterior probabilities be if we had instead played Machine 2 first, playing three times, winning twice and losing once and then playing Machine 1 twice and winning both times?
 <ol>
-<li> $P(M_1~|~\text{data}) = 0.250$, $P(M_2~|~\text{data}) = 0.750$ </li>
-<li> $P(M_1~|~\text{data}) = 0.429$, $P(M_2~|~\text{data}) = 0.571$ </li>
-<li> $P(M_1~|~\text{data}) = 0.571$, $P(M_2~|~\text{data}) = 0.429$ </li>
-<li> $P(M_1~|~\text{data}) = 0.750$, $P(M_2~|~\text{data}) = 0.250$ </li>
+<li> $P(M_1\text{ is good}~|~\text{data}) = 0.250$, $P(M_2\text{ is good}~|~\text{data}) = 0.750$ </li>
+<li> $P(M_1\text{ is good}~|~\text{data}) = 0.429$, $P(M_2\text{ is good}~|~\text{data}) = 0.571$ </li>
+<li> $P(M_1\text{ is good}~|~\text{data}) = 0.571$, $P(M_2\text{ is good}~|~\text{data}) = 0.429$ </li>
+<li> $P(M_1\text{ is good}~|~\text{data}) = 0.750$, $P(M_2\text{ is good}~|~\text{data}) = 0.250$ </li>
 </ol>
 
 
 <div id="exercise">
-**Exercise**: Confirm the updating property we just discussed by connecting together two calls of `slot_posterior`, the first of which calculates the posterior probability for the first two plays on Machine 1. The second call should use these values as its prior and then calculate a new posterior using the data from the three plays on Machine 2.
+**Exercise**: Confirm the updating property we just discussed by connecting together two calls of `bandit_posterior`, the first of which calculates the posterior probability for the first two plays on Machine 1. The second call should use these values as its prior and then calculate a new posterior using the data from the subsequent three plays on Machine 2.
 </div>
 
 
@@ -350,29 +170,12 @@ Note that this exactly matches the probabilities we calculated when we provided 
 You may have notice that if you click on the Data tab in the middle of the App above you are given code for a data frame that represents the results of your plays within the machine. 
 
 <div id="exercise">
-Use this data frame with the `slot_posterior` function to calculate the exact posterior probability of each machine being "good". Do these probabilities match with your intuition about which machine was good? 
+Use this data frame with the `bandit_posterior` function to calculate the exact posterior probability of each machine being "good". Do these probabilities match with your intuition about which machine was good? 
 </div>
 
 <div id="exercise">
 Reset the simulation and then play at least 50 times. Use subsetting (e.g. `data[1:10,]` for the first 10 plays) to calculate the posterior probability at every 10th play and observe how it changes as more plays are made.
 </div>
-
-```{r echo=FALSE}
-plot_posterior = function(data, prior = c(m1_good=0.5,m2_good=0.5))
-{
-  r = matrix(NA, ncol=2, nrow=nrow(data)+1)
-  r[1,] = prior
-  for(i in 1:nrow(data))
-  {
-    r[i+1,]  = slot_posterior(data[1:i,])
-  }
-
-  plot(0,0,type='n',xlab="Play #",ylab="Posterior Prob.",xlim=c(0,nrow(data)),ylim=c(0,1))
-  lines(0:nrow(data),r[,1],lwd=2,col="blue")
-  lines(0:nrow(data),r[,2],lwd=2,col="orange")
-  legend("topleft",c("P(M1|Data)","P(M2|Data)"),lwd=2,col=c("blue","orange"))
-}
-```
 
 We can visualize how these posterior probabilities update using the `plot_posterior` function which calculates and plots the posterior probability after each play. 
 
@@ -385,7 +188,7 @@ data = data.frame(machine = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
                               "L", "W", "W", "W", "W", "L", "W", "L", "L", "L", 
                               "W", "L", "L", "W", "L", "L", "L", "W", "L", "W", 
                               "L", "L", "W", "L", "L", "L", "W", "W", "L", "W"))
-plot_posterior(data)
+plot_bandit_posterior(data)
 ```
 
 <div id="exercise">

@@ -1,0 +1,94 @@
+---
+title: "Bayes' Rule and the Two Armed Bandit"
+runtime: shiny
+output: statsr:::statswithr_lab
+---
+
+```{r echo=FALSE}
+suppressMessages(library(magrittr))
+```
+
+<div id="instructions">
+Complete all **Exercises**, and submit answers to **Questions** on the Coursera platform.
+</div>
+
+## Getting Started
+
+### Load packages
+
+In this lab we will explore some basic Bayesian inference using conjugate priors and credible intervals
+to examine some categorical and count data from the CDC's Behavioral Risk Factor Surveillance System (BRFSS). A subset of these data from 2013 have been made available in the `statsr` package, as usual we will first load the package and then the data set. 
+
+Let's load the package,
+
+```{r load-packages, message=FALSE}
+library(statsr)
+data(mlb11)
+```
+
+This data set contains 5000 observations of 6 variables
+
+variable         | description
+---------------- | ---------------------------------------------
+`weight`         |  Respondent's weight in pounds.
+`height`         |  Respondent's height in inches.
+`sex`            |  Respondent's sex
+`exercise`       |  Has the respondent exercised in the last 30 days
+`fruit_per_day`  |  How many servings of fruit does the respondent consume per day.
+`vege_per_day`   |  How many servings of dark green vegetables does the respondent consume per day.
+
+
+## Credible Interval Calculator
+
+Below is a simple interactive tool for visualizing a posterior distribution and credible interval for specific values of the posterior's parameters. We will be using this to explore how both our choice of prior as well as our data affect the distribution of the posterior and the credible interval for our parameter of interest.
+
+```{r}
+credible_interval_app()
+```
+
+## Beta-Binomial
+
+As we discussed in lecture, the Beta distribution is conjugate to the Binomial distribution - meaning that if we use a Beta prior for the parameter $p$ of the Binomial distribution then the posterior distribution of $p$ after collecting data will be another Beta distribution. 
+
+$$ \pi(p) ~\sim~ \text{Beta}(a,b) $$
+$$ x\,|\,n,p ~\sim~ \text{Binom}(n,p) $$
+$$ p \,|\, x,n ~\sim~ \text{Beta}(\alpha,\beta).$$
+
+As we have seen previously, our goal with inference in general is to take specific observations / data and use them to make useful statements about population parameters of interest. As you have seen in this weeks lectures the Beta-Binomial is a Bayesian approach for inference about a single population proportion $p$. Whereas with the frequentist approach we used $\hat{p} = x / n$ we will now just use $x$ and $n$ directly with $x$ being the number of successes obtained from $n$ identical Bernoulli trials. As such, we can view $x$ as a Binomial random variable with $n$ trials and $p$ probability of success.
+ 
+To complete are Bayesian specification, all that is left is to define our prior beliefs for the value of $p$ by defining a prior distribution. Our choice of the prior hyperparameters ($a$ and $b$) should reflect our prior beliefs about our parameter of interest. For most conjugate distributions their is a straight forward interpretation of these parameters as previously observed data - in the case of the Beta-Binomial we can think of our prior hyperparameters as representing $a-1$ previous successes and $b-1$ previous failures.
+
+### Data and the updating rule
+
+Lets start by performing inference on the sex ratio of respondents to the BRFSS, we can define success as being `Female` and we would like to make some statement about the overall sex ratio of American adults based on our sample from the BRFSS. 
+
+```{r}
+table(brfss$sex)
+```
+
+
+
+For each observed data point from a Binomial ($n$ and $x$) we can calculate the values of the posterior parameters using the following updating rule:
+
+$$ \alpha = a + x $$
+$$ \beta = b + n - x $$
+
+
+
+
+## Gamma-Poisson
+
+The Gamma-Poisson is another example of a conjugate family where using the Gamma distribution as a prior for the rate parameter $\lambda$ from the Poisson distribution results in a Gamma posterior for $\lambda$.
+
+$$ \pi(\lambda) ~\sim~ \text{Gamma}(a,b) $$
+$$ x\,|\,\lambda ~\sim~ \text{Pois}(\lambda) $$
+$$ \lambda \,|\, x ~\sim~ \text{Gamma}(\alpha,\beta).$$
+
+For each observed data point from the Poisson ($x$) we can calculate the values of the posterior parameters using the following updating rule:
+
+$$ \alpha = a + x $$
+$$ \beta = b + n $$
+
+Once again, our choice of the prior parameters ($a$ and $b$) should reflect our prior beliefs about our parameter of interest ($\lambda$), and in the case of the Gamma-Poisson we can view $a$ as the number of total counts and $b$ as the number of trials.
+
+

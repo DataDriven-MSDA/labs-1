@@ -45,8 +45,7 @@ This is the first time we're using the `BAS` package. We will be using the
 
 ### The data
 
-The data were gathered as a random sample of 935 respondents throughout the United States.  (This data set was released as part of the series *Instructional Stata Datasets for Econometrics* by  the Boston College Department of Economics
-[@Wooldridge2000]) The result is a data frame where each row corresponds to a unique individual and columns represent variables about the individuals.
+The data will be using in this lab were gathered as a random sample of 935 respondents throughout the United States. This data set was released as part of the series *Instructional Stata Datasets for Econometrics* by the Boston College Department of Economics [@Wooldridge2000].
 
 Let's load the data:
 
@@ -57,9 +56,9 @@ data(wage)
 variable         | description
 ---------------- | -----------
 `wage`           | weekly earnings (dollars)
-`hours`          | average weekly hours worked
+`hours`          | average hours worked per week
 `IQ`             | IQ score
-`kww`            | Knowledge of World Work score
+`kww`            | knowledge of world work score
 `educ`           | number of years of education
 `exper`          | years of work experience
 `tenure`         | years with current employer
@@ -67,12 +66,12 @@ variable         | description
 `married`        | =1 if married
 `black`          | =1 if black
 `south`          | =1 if live in south
-`urban`          | =1 if live in a Metropolitan Statistical Area
+`urban`          | =1 if live in a Standard Metropolitan Statistical Area
 `sibs`           | number of siblings
-`brthord`        | brthord
+`brthord`        | birth order
 `meduc`          | mother's education (years)
 `feduc`          | father's education (years)
-`lwage`          | log weekly wage (dollars)
+`lwage`          | natural log of `wage`
 
 
 1. Is this an observational study or an experiment?
@@ -83,20 +82,24 @@ variable         | description
 
 ## Exploring the data
 
+As with any new data set a good place to start is standard exploratory data analysis. We will begin witht the `wage` variable since it will be the response variable in our models.
+
 2. Which of the following statements is **false** about the distribution of `wage`? 
 <ol>
 <li> The median of the distribution is 905. </li>
 <li> 25\% of respondents make more than 1160 dollars per week. </li> 
 <li> 7 of the respondents make less than 300 dollars per week </li> 
-<li> The right-skewness of the data means that more respondents fall below the mean wage than above it. </li>
+<li> `wage` is right-skewed, meaning that more respondents fall below the mean wage than above it. </li>
 </ol>
 ```{r wage-dist}
 # type your code for Question 2 here, and Knit
 
 ```
 
+Since `wage` is our response, we would like to explore the relationship of the other variables as predictors.
+
 <div id="exercise">
-**Exercise:** Excluding `wage` and `lwage`, select two other variables that you think might be a good predictor of `wage`.  Visualize the relationships between `wage` and these two variables with appropriate plots.
+**Exercise:** Excluding `wage` and `lwage`, select two other variables that you think might be a good predictor of `wage`.  Visualize their relationships with `wage` using appropriate plots.
 </div>
 ```{r two-vars-eda}
 # type your code for the Exercise here, and Knit
@@ -105,18 +108,20 @@ variable         | description
 
 ## Simple linear regression
 
-A simple explanation for the variation in wages that we see in the data is that smarter people make more money.  The plot below visualizes a scatterplot between weekly wage and IQ score.
+One possible, simplistic, explanation for the variation in wages that we see in the data is that smarter people make more money. The plot below visualizes a scatterplot between weekly wage and IQ score.
 
 ```{r scatter-score-bty_avg}
 ggplot(data = wage, aes(x = iq, y = wage)) +
   geom_point()
 ```
 
-This plot is rather noisy.  While there does appear to be a linear relationship between IQ score and wage, IQ is a very crude predictor for wage.  Now, let's model this relationship with simple linear regression.
+This plot is rather noisy.  While there may be a slight positive linear relationship between IQ score and wage, IQ is at best a crude predictor of wages.  We can quantify this by fitting a simple linear regression.
 
 
 ```{r wage-iq-model}
 m_wage_iq = lm(wage ~ iq, data = wage)
+m_wage_iq$coefficients
+summary(m_wage_iq)$sigma
 ```
 
 
@@ -126,7 +131,7 @@ $$wage_i = \alpha + \beta \cdot iq_i + \epsilon_i$$
 
 if $\epsilon_i \sim N(0, \sigma^2)$ and the reference prior $p(\alpha, \beta, \sigma^2) \propto 1/\sigma^2$ is used, then the Bayesian posterior means and standard deviations will be equal to the frequentist estimates and standard errors respectively.  
 
-The Bayesian model specification assumes that the errors are normally distributed with a common variance.  A way to check this assumption is to look at the distribution of the residuals.  If the residuals are highly non-normal or skewed, the assumption of normally distributed errors is not warranted.
+The Bayesian model specification assumes that the errors are normally distributed with a constant variance. As with the frequentist approach we check this assumption by examining the distribution of the residuals for the model.  If the residuals are highly non-normal or skewed, the assumption is violated and any subsequent inference is not valid.
 
 
 3. Examine the residuals of `m_wage_iq`.  Is the assumption of normally distributed errors valid?
@@ -153,21 +158,21 @@ The Bayesian model specification assumes that the errors are normally distribute
 
 ## Variable transformation
 
-One way to accommodate the right-skewness in the data is to log-transform the dependent variable.  Note that this is only possible if the dependent variable only takes on positive values.  Let's try to fit a linear model with log-wage as the dependent variable.  Question 4 will be based on this log-model.
+One way to accommodate the right-skewness in the data is to (natural) log transform the dependent variable. Note that this is only possible if the variable is strictly positive, since the log of negative value is not defined and $\log(0) = -\infty$.  Let's try to fit a linear model with log-wage as the dependent variable.  Question 4 will be based on this log transformed model.
 
 ```{r lwage-iq-model}
 m_lwage_iq = lm(lwage ~ iq, data = wage)
 ```
 
 <div id="exercise">
-**Exercise:** Examine the residuals of this model.  Is the assumption of normally distributed errors valid?
+**Exercise:** Examine the residuals of this model.  Is the assumption of normally distributed residuals reasonable?
 </div>
 ```{r log-resid}
 # type your code for the Exercise here, and Knit
 
 ```
 
-Recall that the posterior distribution of $\alpha$ and $\beta$ given $\sigma^2$ is normal, but marginally follows a $t$ distribution with $n-p-1$ degrees of freedom.  In this case, $p=1$, since IQ is the only predictor of log-wage included in this model.  Since $n$ is so large, we can use a normal-approximation to make inferences on $\alpha$ and $\beta$. 
+Recall that the posterior distribution of $\alpha$ and $\beta$ given $\sigma^2$ is normal, but marginally follows a $t$ distribution with $n-p-1$ degrees of freedom.  In this case, $p=1$, since IQ is the only predictor of log-wage included in our model. Therefore both $\alpha$ and $\beta$ will have a posteriors that follow a $t$ distribution 933 degrees of freedom - since the df is so large these distributions will actually be approximately normal.
 
 4. Under the reference prior $p(\alpha, \beta, \sigma^2) \propto 1/\sigma^2$, give a 95\% posterior credible interval for $\beta$, the coefficient of IQ.
 <ol>
@@ -196,17 +201,19 @@ It is evident that wage can be explained by many predictors, such as experience,
 
 
 ```{r full-lwage-model}
-m_lwage_full = lm(lwage ~ . -wage, data = wage)
+m_lwage_full = lm(lwage ~ . - wage, data = wage)
 ```
 
-This command tells R to include all covariates in the model with the exception of wage.  However, running this full model has a cost: we remove observations from our data.  This is because some measurements for birth order, mother's education, and father's education are missing.  By default, R's `lm` function does a complete-case analysis, and so it removes all observations with NA values in one or more fields.  This increases the posterior variance of our parameters, as there are fewer observations.
+The use of `.` in the `lm` tells R to include all covariates in the model which we then further modify with `-wage` which then excludes the `wage` variable from the model. 
 
-In order for our inferences to be valid, we assume that the data is missing at random.  For example, if all first-born children did not report their birth order, the data would not be missing at random.  We make this assumption and use the 663 complete observations (as opposed to the original 935) to fit the model.  Bayesian methods exist to use observations with missing data, though they are beyond the scope of this course.  
+However, running this full model has a cost: we remove observations from our data since some measurements for (e.g. birth order, mother's education, and father's education) are missing. By default, the `lm` function does a complete-case analysis, and so it removes any observations with a missing (`NA`) value in one or more of the predictor variables. 
+
+Because of these missing values we must make an addition assumption in order for our inferences to be valid. This exclusion of rows with missing values requires that the data there is no systematic reason for the values to be missing, or in other words our data must be missing at random. For example, if all first-born children did not report their birth order, the data would not be missing at random.  Without any additional information we will assume this is reasonable and use the 663 complete observations (as opposed to the original 935) to fit the model.  Both Bayesian and frequentist methods exist to handle data sets with missing data, but they are beyond the scope of this course.  
 
 5. From the model, all else begin equal, who would you expect to make more: a married black man or a single non-black man?
 <ol>
-<li> The married black man</li>
-<li> The single non-black man </li> 
+<li> The married southerner </li>
+<li> The single non-southerner </li> 
 </ol>
 
 
@@ -216,7 +223,7 @@ In order for our inferences to be valid, we assume that the data is missing at r
 ```
 
 
-As you can see from a quick summary of the full linear model, many coefficients of independent variables are not statistically significant.  In previous labs within this specialization, you selected variables based on p-values and Adjusted $R^2.$  This module introduced the Bayesian Information Criterion (BIC), which is a metric that can be used for model selection.  BIC is based on model fit, while simultaneously penalizing the number of parameters in proportion to the sample size.  We can calculate the BIC of the full linear model using the command below:
+As you can see from a quick summary of the full linear model, many coefficients of independent variables are not statistically significant.  In previous labs within this specialization, you selected variables based on Adjusted $R^2.$  This module introduced the Bayesian Information Criterion (BIC), which is a metric that can be used for model selection.  BIC is based on model fit, while simultaneously penalizing the number of parameters in proportion to the sample size.  We can calculate the BIC of the full linear model using the command below:
 
 ```{r}
 BIC(m_lwage_full)
@@ -274,7 +281,7 @@ plot.coef.bma(coefficients(bma_lwage), subset = c(3,13))
 ```
 
 
-For questions 7-8, to give you practice with Bayesian model averaging, we'll use a reduced data set, which excludes number of siblings, birth order, and parental education.
+For questions 7-8, we'll use a reduced data set which excludes number of siblings, birth order, and parental education.
 
 ```{r rem-vars-wage}
 wage_red = wage %>%

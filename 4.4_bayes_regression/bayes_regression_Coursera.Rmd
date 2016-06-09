@@ -328,12 +328,11 @@ par(mfrow = c(1,1))
 ## Prediction
 A key advantage of Bayesian statistics is prediction and the probabilistic interpretation of predictions.  Much of Bayesian prediction is done using simulation techniques, some of which was discussed near the end of this module.  This is often applied in regression modeling, although we'll work through an example with just an intercept term.
 
-Suppose you observe four numerical observations of $y$, which are 2, 2, 0 and 0 respectively.  Assuming that $y \sim N(\mu, \sigma^2)$, dnder the reference prior $p(\mu,\sigma^2) \propto 1/\sigma^2$, our posterior becomes
+Suppose you observe four numerical observations of $y$, which are 2, 2, 0 and 0 respectively.  Assuming that $y \sim N(\mu, \sigma^2)$, under the reference prior $p(\mu,\sigma^2) \propto 1/\sigma^2$, our posterior becomes
 
-\begin{align*}
-mu|\sigma^2 &\sim N(1, \sigma^2/4)
-1/sigma^2 &\sim G(\alpha = 2,\beta = 2)
-\end{align*}
+
+\mu|\sigma^2 \sim N(1, \sigma^2/4)
+1/\sigma^2 &sim G(\alpha = 2,\beta = 2)
 
 We can first simulate $\sigma^2$ from its posterior and then $\mu$ followed by $y$.  Our draws of $y$ will be from the posterior predictive distribution.  The example below draws 10,000 times from the posterior predictive distribution of $y$.
 

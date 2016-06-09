@@ -26,7 +26,7 @@ library(statsr)
 data(brfss)
 ```
 
-This data set contains 5000 observations of 6 variables
+This data set contains 5000 observations of 6 variables:
 
 variable         | description
 ---------------- | ---------------------------------------------
@@ -34,8 +34,8 @@ variable         | description
 `height`         |  Respondent's height in inches.
 `sex`            |  Respondent's sex
 `exercise`       |  Has the respondent exercised in the last 30 days
-`fruit_per_day`  |  How many servings of fruit does the respondent consume per day.
-`vege_per_day`   |  How many servings of dark green vegetables does the respondent consume per day.
+`fruit_per_day`  |  How many servings of fruit does the respondent consume per day
+`vege_per_day`   |  How many servings of dark green vegetables does the respondent consume per day
 
 
 ## Credible Interval Calculator
@@ -113,13 +113,14 @@ To complete our Bayesian specification, all that is left is to define our prior 
 
 ### Data and the updating rule
 
-Lets start by performing inference on the sex ratio of respondents to the BRFSS, we can define success as being `Female` and we would like to make some statement about the overall sex ratio of American adults based on our sample from the BRFSS. 
+We will start by performing inference on the sex ratio of respondents to the BRFSS, we can define success as being `Female` and we would like to make some statement about the overall sex ratio of American adults based on our sample from the BRFSS. We will do this by estimating $p$, the true proportion of females in the American population, using credible intervals. For each credible interval you compute always check back in with your intuition, which hopefully says that $p$ should be around 0.5 since we would expect the roughly 50% females and 50% males in the population.
 
+Here is the observed sex distribution in the data:
 ```{r}
 table(brfss$sex)
 ```
 
-Let's store the relevant data:
+Let's store the relevant, total sample size and number of females, for use in later calculations:
 ```{r}
 n <- length(brfss$sex)
 x <- sum(brfss$sex == "Female")
@@ -136,29 +137,123 @@ $$ p \,|\, x,n ~\sim~ \text{Beta}(\alpha = 1 + `r x`,~ \beta = 1 + `r n - x`) $$
 
 4. What is the 95% credible interval for $p$, the proportion of females in the population, based on the posterior distribution obtained with the updating rule shown above. Use the credible interval app to answer this question.
 <ol>
-<li> some choices
+<li> **some choices**
 </ol>
+
 
 5. Which of the following is the correct Bayesian interpretation of this interval?
 <ol>
-<li> The probability that the true proportion of females lies in this interval is 0.95. </li>
 <li> The probability that the true proportion of females lies in this interval is either 0 or 1. </li>
-<li> some other choices </li>
+<li> The probability that the true proportion of females lies in this interval is 0.95. **- CORRECT ANSWER**</li>
+<li> 95\% of the time the true proportion of females is in this interval.  </li>
+<li> 95\% of true proportions of females are in this interval.  </li>
+</ol>
+
+Let's now use a more informative prior that reflects a stronger belief that the sex ratio should be 50-50. For this, we will use a Beta prior with hyperparameters $a = 500$ and $b = 500$.
+
+<div id="exercise">
+**Exercise**: Confirm by plotting the following two Beta distributions that we have used as priors so far using the app that the $Beta(a = 500, b = 500)$ distribution is centered around 0.5 and much narrowed than the uniform, i.e. $Beta(a = 1, b = 1)$, distribution.
+</div>
+
+
+6. What is the 95% credible interval for $p$, the proportion of females in the population, based on a prior distribution of $Beta(a = 500, b = 500)$. **Hint:** You need to determine the posterior distribution first, and then you can use the app to construct the credible interval.
+<ol>
+<li> **some choices**
+</ol>
+
+Let's consider one other prior distribution: $Beta(a = 5, b = 200)$. 
+
+
+7. Which is of the following is the center of the $Beta(a = 5, b = 200)$ distribution?
+<ol>
+<li> approximately 0.03 **- CORRECT ANSWER**</li>
+<li> approximately 0.15 </li>
+<li> approximately 0.50 </li>
+<li> approximately 0.97 </li>
+</ol>
+
+
+8. What is the 95% credible interval for $p$, the proportion of females in the population, based on a prior distribution of $Beta(a = 5, b = 200)$. **Hint:** You need to determine the posterior distribution first, and then you can use the app to construct the credible interval.
+<ol>
+<li> **some choices**
+</ol>
+
+In summary, when we used a prior distribution that was centered around a realistic value for $p$ (0.5), the credible interval we obtained was also realistic. However when we used a prior distribution that was centered around a clearly unrealistic value for $p$, the credible interval we obtained was also equally unrealistic. Hence, a good prior helps, however a bad prior can hurt your results. 
+
+Next, let's turn our attention to the `exercise` variable, which indicates whether the respondent exercised in the last 30 days. While for the `sex` variable we had some intuition about the true proportion of females (we would expect it to be around 0.5), many of us likely do not have a strong prior belief about the proportion of Americans who exercise. In this case we would be more inclined to use non-informative prior, e.g. a uniform, which says that $p$ is equally likely to be anywhere between 0 and 1.
+
+8. What is the 90% credible interval for $p$, the proportion of Americans who exercise, based on a uniform prior distribution?
+<ol>
+<li> **some choices**
 </ol>
 
 ## Gamma-Poisson
 
+Since the Poisson distribution describes counts in a given interval, we will use this distribution as a model for the `fruit_per_day` variable which records the servings of fruit the respondents consume per day. The Poisson distribution has a single parameter, $\lambda$, which is the expected number of counts per time period. 
 The Gamma-Poisson is another example of a conjugate family where using the Gamma distribution as a prior for the rate parameter $\lambda$ from the Poisson distribution results in a Gamma posterior for $\lambda$.
 
 $$ \pi(\lambda) ~\sim~ \text{Gamma}(a,b) $$
 $$ x\,|\,\lambda ~\sim~ \text{Pois}(\lambda) $$
 $$ \lambda \,|\, x ~\sim~ \text{Gamma}(\alpha,\beta).$$
 
+Once again, our choice of the prior parameters ($a$ and $b$) should reflect our prior beliefs about our parameter of interest ($\lambda$), and in the case of the Gamma-Poisson we can view $a$ as the number of total counts and $b$ as the number of time periods observed. For example, setting $a = 12$ and $b = 3$ reflects a belief that respondents on average consume 12 fruits in 3 days. At a first glance, this might sound equivalent to setting $a = 4$ and $b = 1$ or $a = 120$ and $b = 30$, however these three distributions, $Gamma(a = 4, b = 1)$, $Gamma(a = 12, b = 3)$, and $Gamma(a = 120, b = 30)$, while they all have the same expected value (4), differ in their spreads which indicates a different degree of belief about the parameter $\lambda$.
+
+<div id="exercise">
+**Exercise**: Plot the following three prior Gamma distributions, $Gamma(a = 4, b = 1)$, $Gamma(a = 12, b = 3)$, and $Gamma(a = 120, b = 30)$ using the app. Confirm that they all have the same center but different spreads. Order them in ascending order of spreads, from least to most variable.
+</div>
+
+### Data and the updating rule
+
 For each observed data point from the Poisson ($x$) we can calculate the values of the posterior parameters using the following updating rule:
 
 $$ \alpha = a + x $$
+$$ \beta = b + 1 $$
+
+However in this case we have 5000 observations and we would like to avoid updates at the individual level. As we saw last week, we can use our updated posterior as a new prior for subsequent updates. As such, a more general multi-observation updating rule is
+
+$$ \alpha = a + \sum_{i = 1}^n x_i $$
 $$ \beta = b + n $$
 
-Once again, our choice of the prior parameters ($a$ and $b$) should reflect our prior beliefs about our parameter of interest ($\lambda$), and in the case of the Gamma-Poisson we can view $a$ as the number of total counts and $b$ as the number of trials.
+10. Using the multi-observation updating rule, what should the posterior distribution be when the hyperparameters of a Gamma prior are $a = 4$ and $b = 1$ and we observe $x = \{2, 3, 4, 5, 4\}$.
+<ol>
+<li> **some choices**
+</ol>
+```{r q10}
+# type your code for Question 10 here, and Knit
+
+```
+
+11. The government recooments that Americans consume approximately 5 servings of fruits per day. Which of the following represents a weak prior that Americans on average follow this recommendation.
+<ol>
+<li> $Gamma(a = 1, b = 5)$ </li>
+<li> $Gamma(a = 5, b = 1)$ **- CORRECT ANSWER**</li>
+<li> $Gamma(a = 100, b = 500)$ </li>
+<li> $Gamma(a = 500, b = 100)$ </li>
+</ol>
+
+12. Using the correct prior distribution from the previous question, calculate the parameters of the posterior distribution.
+<ol>
+<li> **some choices**
+</ol>
+
+13. Using the correct posterior distribution from the previous question, calculate the 90% credible interval for $\lambda$, the expected number of servings of fruit Americans consume per day.
+<ol>
+<li> (1.594, 1.653) **- CORRECT ANSWER**</li> 
+<li> **some other choices**
+</ol>
+
+14. Based on this result, do Americans appear to follow the government guidelines which recommend consuming 5 servings of fruits per day?
+<ol>
+<li> Yes </li>
+<li> No **- CORRECT ANSWER**</li>
+</ol>
+
+
+<div id="exercise">
+**Exercise**: Repeat the preceding analysis for number of servings of vegetables per day (`vege_per_day`), and evaluate whether Americans follow the government guidelines which recommend consuming 5 servings of vegetables per day.
+</div>
+
+
+
 
 

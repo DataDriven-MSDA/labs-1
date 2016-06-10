@@ -181,10 +181,10 @@ Let's consider one other prior distribution: $Beta(a = 5, b = 200)$.
 
 8. What is the 95% credible interval for $p$, the proportion of females in the population, based on a prior distribution of $Beta(a = 5, b = 200)$. **Hint:** You need to determine the posterior distribution first, and then you can use the app to construct the credible interval.
 <ol>
-<li> (0.503, 0.531)
-<li> (0.499, 0.535)
-<li> (0.486, 0.509)
-<li> (0.484, 0.511) **-CORRECT ANSWER**
+<li> (0.503, 0.531) </li>
+<li> (0.499, 0.535) </li>
+<li> (0.486, 0.509) </li>
+<li> (0.484, 0.511) </li>
 </ol>
 
 In summary, when we used a prior distribution that was centered around a realistic value for $p$ (0.5), the credible interval we obtained was also realistic. However when we used a strong prior distribution that was centered around a clearly unrealistic value for $p$, the credible interval we obtained did not match the distribution of the data. Hence, a good prior helps, however a bad prior can hurt your results. 
@@ -197,7 +197,7 @@ table(brfss$exercise)
 ```
 
 
-8. What is the 90% credible interval for $p$, the proportion of Americans who exercise, based on a uniform prior distribution?
+9. What is the 90% credible interval for $p$, the proportion of Americans who exercise, based on a uniform prior distribution?
 <ol>
 <li> (0.762, 0.785) </li>
 <li> (0.764, 0.783) </li> 
@@ -232,7 +232,7 @@ However in this case we have 5000 observations and we would like to avoid update
 $$ \alpha = a + \sum_{i = 1}^n x_i $$
 $$ \beta = b + n $$
 
-9. Using the multi-observation updating rule, what should the posterior distribution be when the hyperparameters of a Gamma prior are $a = 4$ and $b = 1$ and we observe $x = \{2, 3, 4, 5, 4\}$.
+10. Using the multi-observation updating rule, what should the posterior distribution be when the hyperparameters of a Gamma prior are $a = 4$ and $b = 1$ and we observe $x = \{2, 3, 4, 5, 4\}$.
 <ol>
 <li> Gamma($a = 22$, $b = 6$) </li> 
 <li> Gamma($a = 18$, $b = 5$) </li>
@@ -244,7 +244,7 @@ $$ \beta = b + n $$
 
 ```
 
-10. The government recooments that Americans consume approximately 5 servings of fruits per day. Which of the following represents a weak prior that Americans on average follow this recommendation.
+11. The government recooments that Americans consume approximately 5 servings of fruits per day. Which of the following represents a weak prior that Americans on average follow this recommendation.
 <ol>
 <li> $Gamma(a = 1, b = 5)$ </li>
 <li> $Gamma(a = 5, b = 1)$ </li>
@@ -252,7 +252,7 @@ $$ \beta = b + n $$
 <li> $Gamma(a = 500, b = 100)$ </li>
 </ol>
 
-11. Using the correct prior distribution from the previous question, calculate the parameters of the posterior distribution.
+12. Using the correct prior distribution from the previous question, calculate the parameters of the posterior distribution.
 <ol>
 <li> Gamma($a = 8114$, $b = 5000$) </li>
 <li> Gamma($a = 8118$, $b = 5001$) </li>
@@ -266,7 +266,7 @@ $$ \beta = b + n $$
 ```
 
 
-12. Using the correct posterior distribution from the previous question, calculate the 90% credible interval for $\lambda$, the expected number of servings of fruit Americans consume per day.
+13. Using the correct posterior distribution from the previous question, calculate the 90% credible interval for $\lambda$, the expected number of servings of fruit Americans consume per day.
 <ol>
 <li> (1.594, 1.653) </li> 
 <li> (1.588, 1.659) </li> 
@@ -274,7 +274,7 @@ $$ \beta = b + n $$
 <li> (1.575, 1.668) </li> 
 </ol>
 
-13. Based on this result, do Americans appear to follow the government guidelines which recommend consuming 5 servings of fruits per day?
+14. Based on this result, do Americans appear to follow the government guidelines which recommend consuming 5 servings of fruits per day?
 <ol>
 <li> Yes </li>
 <li> No </li>

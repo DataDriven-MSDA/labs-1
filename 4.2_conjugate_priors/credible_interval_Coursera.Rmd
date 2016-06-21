@@ -53,7 +53,7 @@ credible_interval_app()
 <li> (-1.96, 1.96) </li>
 <li> (0.419, 0.872) </li>
 <li> (0.959, 3.417) </li>
-<li> (5.618, 14.382) **- CORRECT ANSWER** </li>
+<li> (5.618, 14.382) </li>
 </ol>
 
 <div id="exercise">
@@ -69,7 +69,7 @@ credible_interval_app()
 <ol>
 <li> (-1.678, 5.678) </li>
 <li> (0.043, 0.641) </li>
-<li> (0.063, 0.582) **- CORRECT ANSWER** </li>
+<li> (0.063, 0.582) </li>
 <li> (0.071, 0.949) </li>
 </ol>
 
@@ -86,7 +86,7 @@ credible_interval_app()
 <ol>
 <li> (-3.284, 11.284) </li>
 <li> (0.069, 0.693) </li>
-<li> (0.084, 1.372) **- CORRECT ANSWER** </li>
+<li> (0.084, 1.372) </li>
 <li> (0.171, 0.969) </li>
 </ol>
 
@@ -137,14 +137,17 @@ $$ p \,|\, x,n ~\sim~ \text{Beta}(\alpha = 1 + `r x`,~ \beta = 1 + `r n - x`) $$
 
 4. What is the 95% credible interval for $p$, the proportion of females in the population, based on the posterior distribution obtained with the updating rule shown above. Use the credible interval app to answer this question.
 <ol>
-<li> **some choices**
+<li> (0.500, 0.536) </li>
+<li> (0.504, 0.532) </li> 
+<li> (0.507, 0.530) </li>
+<li> (0.468, 0.496) </li>
 </ol>
 
 
 5. Which of the following is the correct Bayesian interpretation of this interval?
 <ol>
 <li> The probability that the true proportion of females lies in this interval is either 0 or 1. </li>
-<li> The probability that the true proportion of females lies in this interval is 0.95. **- CORRECT ANSWER**</li>
+<li> The probability that the true proportion of females lies in this interval is 0.95.</li>
 <li> 95\% of the time the true proportion of females is in this interval.  </li>
 <li> 95\% of true proportions of females are in this interval.  </li>
 </ol>
@@ -158,7 +161,10 @@ Let's now use a more informative prior that reflects a stronger belief that the 
 
 6. What is the 95% credible interval for $p$, the proportion of females in the population, based on a prior distribution of $Beta(a = 500, b = 500)$. **Hint:** You need to determine the posterior distribution first, and then you can use the app to construct the credible interval.
 <ol>
-<li> **some choices**
+<li> (0.498, 0.531) </li>
+<li> (0.500, 0.528) </li>
+<li> (0.504, 0.532) </li>
+<li> (0.502, 0.527) </li> 
 </ol>
 
 Let's consider one other prior distribution: $Beta(a = 5, b = 200)$. 
@@ -166,7 +172,7 @@ Let's consider one other prior distribution: $Beta(a = 5, b = 200)$.
 
 7. Which is of the following is the center of the $Beta(a = 5, b = 200)$ distribution?
 <ol>
-<li> approximately 0.03 **- CORRECT ANSWER**</li>
+<li> approximately 0.03 </li>
 <li> approximately 0.15 </li>
 <li> approximately 0.50 </li>
 <li> approximately 0.97 </li>
@@ -175,16 +181,28 @@ Let's consider one other prior distribution: $Beta(a = 5, b = 200)$.
 
 8. What is the 95% credible interval for $p$, the proportion of females in the population, based on a prior distribution of $Beta(a = 5, b = 200)$. **Hint:** You need to determine the posterior distribution first, and then you can use the app to construct the credible interval.
 <ol>
-<li> **some choices**
+<li> (0.503, 0.531) </li>
+<li> (0.499, 0.535) </li>
+<li> (0.486, 0.509) </li>
+<li> (0.484, 0.511) </li>
 </ol>
 
-In summary, when we used a prior distribution that was centered around a realistic value for $p$ (0.5), the credible interval we obtained was also realistic. However when we used a prior distribution that was centered around a clearly unrealistic value for $p$, the credible interval we obtained was also equally unrealistic. Hence, a good prior helps, however a bad prior can hurt your results. 
+In summary, when we used a prior distribution that was centered around a realistic value for $p$ (0.5), the credible interval we obtained was also realistic. However when we used a strong prior distribution that was centered around a clearly unrealistic value for $p$, the credible interval we obtained did not match the distribution of the data. Hence, a good prior helps, however a bad prior can hurt your results. 
 
 Next, let's turn our attention to the `exercise` variable, which indicates whether the respondent exercised in the last 30 days. While for the `sex` variable we had some intuition about the true proportion of females (we would expect it to be around 0.5), many of us likely do not have a strong prior belief about the proportion of Americans who exercise. In this case we would be more inclined to use non-informative prior, e.g. a uniform, which says that $p$ is equally likely to be anywhere between 0 and 1.
 
-8. What is the 90% credible interval for $p$, the proportion of Americans who exercise, based on a uniform prior distribution?
+Here is the observed exercise distribution in the data:
+```{r}
+table(brfss$exercise)
+```
+
+
+9. What is the 90% credible interval for $p$, the proportion of Americans who exercise, based on a uniform prior distribution?
 <ol>
-<li> **some choices**
+<li> (0.762, 0.785) </li>
+<li> (0.764, 0.783) </li> 
+<li> (0.718, 0.737) </li>
+<li> (0.758, 0.789) </li>
 </ol>
 
 ## Gamma-Poisson
@@ -216,7 +234,10 @@ $$ \beta = b + n $$
 
 10. Using the multi-observation updating rule, what should the posterior distribution be when the hyperparameters of a Gamma prior are $a = 4$ and $b = 1$ and we observe $x = \{2, 3, 4, 5, 4\}$.
 <ol>
-<li> **some choices**
+<li> Gamma($a = 22$, $b = 6$) </li> 
+<li> Gamma($a = 18$, $b = 5$) </li>
+<li> Gamma($a = 18$, $b = 6$) </li>
+<li> Gamma($a = 19$, $b = 8$) </li>
 </ol>
 ```{r q10}
 # type your code for Question 10 here, and Knit
@@ -226,32 +247,49 @@ $$ \beta = b + n $$
 11. The government recooments that Americans consume approximately 5 servings of fruits per day. Which of the following represents a weak prior that Americans on average follow this recommendation.
 <ol>
 <li> $Gamma(a = 1, b = 5)$ </li>
-<li> $Gamma(a = 5, b = 1)$ **- CORRECT ANSWER**</li>
+<li> $Gamma(a = 5, b = 1)$ </li>
 <li> $Gamma(a = 100, b = 500)$ </li>
 <li> $Gamma(a = 500, b = 100)$ </li>
 </ol>
 
 12. Using the correct prior distribution from the previous question, calculate the parameters of the posterior distribution.
 <ol>
-<li> **some choices**
+<li> Gamma($a = 8114$, $b = 5000$) </li>
+<li> Gamma($a = 8118$, $b = 5001$) </li>
+<li> Gamma($a = 8119$, $b = 5001$) </li>
+<li> Gamma($a = 8115$, $b = 5005$) </li>
 </ol>
+
+```{r q12}
+# type your code for Question 12 here, and Knit
+
+```
+
 
 13. Using the correct posterior distribution from the previous question, calculate the 90% credible interval for $\lambda$, the expected number of servings of fruit Americans consume per day.
 <ol>
-<li> (1.594, 1.653) **- CORRECT ANSWER**</li> 
-<li> **some other choices**
+<li> (1.594, 1.653) </li> 
+<li> (1.588, 1.659) </li> 
+<li> (1.592, 1.651) </li> 
+<li> (1.575, 1.668) </li> 
 </ol>
 
 14. Based on this result, do Americans appear to follow the government guidelines which recommend consuming 5 servings of fruits per day?
 <ol>
 <li> Yes </li>
-<li> No **- CORRECT ANSWER**</li>
+<li> No </li>
 </ol>
 
 
 <div id="exercise">
 **Exercise**: Repeat the preceding analysis for number of servings of vegetables per day (`vege_per_day`), and evaluate whether Americans follow the government guidelines which recommend consuming 5 servings of vegetables per day.
 </div>
+
+```{r veg_day}
+# type your code for the Exercise here, and Knit
+
+```
+
 
 
 

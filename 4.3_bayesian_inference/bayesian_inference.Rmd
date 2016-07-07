@@ -163,7 +163,7 @@ Next, lets consider if the mother's smoking habit has any clear effect on the ch
 
 ```
 
-5. Which of the following is false about the relationship between habit and weight?
+5. Which of the following is *false* about the relationship between habit and weight?
 <ol>
 <li> Median birth weight of babies born to non-smoker mothers is slightly higher than that of babies born to smoker mothers. </li>
 <li> Range of birth weights of babies born to non-smoker mothers is greater than that of babies born to smoker mothers. </li>
@@ -189,7 +189,7 @@ bayes_inference(weight,habit,data=nc,statistic="mean",type="ci")
 
 
 ```{r}
-#bayes_inference(weight,habit,data=nc,statistic="mean",type="ht",null=0,alternative="twosided")
+bayes_inference(weight,habit,data=nc,statistic="mean",type="ht",null=0,alternative="twosided")
 ```
 
 7. Based on the Bayes factor calculated above, how strong is evidence against $H_1$?

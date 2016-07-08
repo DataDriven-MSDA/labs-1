@@ -341,7 +341,7 @@ nycflights %>%
 ```
 
 
-6.  Is the mean and the median a more reliable measure for deciding which month(s) to 
+6.  Is the mean or the median a more reliable measure for deciding which month(s) to 
 avoid flying if you really dislike delayed flights, and why? 
 <ol>
 <li> Mean would be more reliable as it gives us the true average. </li> 
@@ -471,9 +471,11 @@ about the relationship between average speed and distance.
 10.  Suppose you define a flight to be "on time" if it gets to the destination on 
 time or earlier than expected, regardless of any departure delays. Mutate the data 
 frame to create a new variable called `arr_type` with levels `"on time"` and 
-`"delayed"` based on this definition. Then, determine the on time arrival percentage 
-based on whether the flight departed on time or not. What percent of flights  that 
-were `"delayed"` departing arrive `"on time"`? 
+`"delayed"` based on this definition. Also mutate to create a new variable called 
+`del_type` with levels `"on time"` and `"delayed"` depending on whether there was ny 
+departure delay. Then, determine the on time arrival percentage based on whether the 
+flight departed on time or not. What percent of flights that were `"delayed"` 
+departing arrive `"on time"`?
 [NUMERIC INPUT]
 
 ```{r on-time-arr-perc}

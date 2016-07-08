@@ -189,10 +189,9 @@ Here is the rough outline:
 and store the lower and upper bounds of the confidence intervals.
 -   Repeat these steps 50 times.
 
-We can accomplish this using the `do` function. The following lines of code takes 50
-random samples of size `n` from population (and remember we defined $n = 60$ earlier),
-and computes the upper and lower bounds of the confidence intervals based on these
-samples.
+We can accomplish this using the `rep_sample_n` function. The following lines of 
+code takes 50 random samples of size `n` from population (and remember we defined 
+$n = 60$ earlier), and computes the upper and lower bounds of the confidence intervals based on these samples.
 
 ```{r calculate-50-cis}
 ci <- ames %>%

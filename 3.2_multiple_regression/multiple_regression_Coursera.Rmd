@@ -4,7 +4,7 @@ output: statsr:::statswithr_lab
 
 references:
 - id: Hamermesh2005
-  title: Beauty in the Classroom - Instructors’ Pulchritude and Putative Pedagogical Productivity
+  title: Beauty in the Classroom - Instructors' Pulchritude and Putative Pedagogical Productivity
   author:
   - family: Hamermesh
     given: Daniel S.

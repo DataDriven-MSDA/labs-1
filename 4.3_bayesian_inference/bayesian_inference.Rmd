@@ -107,7 +107,7 @@ As with the frequentist approach we use these data to perform basic inference on
 In order to construct a credible interval we must first provide the data, `weight` in this case, and then indicate that we want a credible interval (`type="ci"`) for a mean (`statistic="mean"`).
 
 ```{r}
-bayes_inference(weight,data=nc,statistic="mean",type="ci")
+bayes_inference(y = weight, data = nc, statistic = "mean", type = "ci")
 ```
 
 The credible level for the interval can be specified using the `cred_level` argument.
@@ -128,7 +128,7 @@ $$ H_2: \mu \ne 7 $$
 To conduct this hypothesis test we will again use the `bayes_inference` function but this time specify `type="ht"`, will then also need to provide the `null` and `alternative` arguments which define the null value (7) and the type of alternative hypothesis (`"twosided"`).
 
 ```{r}
-bayes_inference(weight,data=nc,statistic="mean",type="ht",null=7,alternative="twosided")
+bayes_inference(y = weight, data = nc, statistic = "mean", type = "ht", null = 7, alternative = "twosided")
 ```
 
 4. Based of Jeffrey's scale for interpretation of a Bayes factors how should be describe the evidence in favor of $H_1$ from the results above?
@@ -178,7 +178,7 @@ Next, lets consider if the mother's smoking habit has any clear effect on the ch
 As before we can use the `bayes_inference` function to either construct a credible interval and or calculate a Bayes factor. The calls will be identical to the single mean case except now we will provide `habit` as a predictor variable (argument `x`). Note we also change `null=0`, since we are interested in comparing if the means of the two groups are equal or not.
 
 ```{r}
-bayes_inference(weight,habit,data=nc,statistic="mean",type="ci")
+bayes_inference(y = weight, x = habit, data = nc, statistic = "mean", type = "ci")
 ```
 
 6. Based on the credible interval is there evidence that smoking reduces birth weight? 
@@ -189,7 +189,7 @@ bayes_inference(weight,habit,data=nc,statistic="mean",type="ci")
 
 
 ```{r}
-bayes_inference(weight,habit,data=nc,statistic="mean",type="ht",null=0,alternative="twosided")
+bayes_inference(y = weight, x = habit, data = nc, statistic = "mean", type = "ht", null = 0, alternative = "twosided")
 ```
 
 7. Based on the Bayes factor calculated above, how strong is evidence against $H_1$?
@@ -208,7 +208,7 @@ Finally, we can also conduct Bayesian inference when our outcome variable of int
 For example if we want to test if only 7.5% of births in North Carolina are considered low birth weight we can calculate the Bayes factor using the following code:
 
 ```{r}
-bayes_inference(lowbirthweight,data=nc,success="low",statistic="proportion",type="ht",null=0.075,alternative="twosided")
+bayes_inference(y = lowbirthweight, data = nc, success = "low", statistic = "proportion", type = "ht", null = 0.075, alternative = "twosided")
 ```
 
 8. How would the Bayes factor above change if we were to increase the prior probability of $H_2$?

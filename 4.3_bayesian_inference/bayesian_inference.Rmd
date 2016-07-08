@@ -120,7 +120,7 @@ The credible level for the interval can be specified using the `cred_level` argu
 <li> (6.94 , 7.27) </li>
 </ol>
 
-We can also conduct a Bayesian hypothesis test by calculating a Bayes factor, lets test to see if the average birth weight in North Carolina is significantly different from 7 pounds. 
+We can also conduct a Bayesian hypothesis test by calculating a Bayes factor, let's test to see if the average birth weight in North Carolina is significantly different from 7 pounds. 
 
 $$ H_1: \mu = 7 $$
 $$ H_2: \mu \ne 7 $$
@@ -153,7 +153,7 @@ The graphical results show the magnitude of $P(H_1 ~|~ data)$ with the blue line
 
 ## Inference for two means
 
-Next, lets consider if the mother's smoking habit has any clear effect on the child's birth weight. Here we will use the variable `habit` to distinguish between smoking and non-smoking mothers. As with any analysis, a visualization is a good place to start, and will give us a better understanding of the data.
+Next, let's consider if the mother's smoking habit has any clear effect on the child's birth weight. Here we will use the variable `habit` to distinguish between smoking and non-smoking mothers. As with any analysis, a visualization is a good place to start, and will give us a better understanding of the data.
 
 <div id="exercise">
 **Exercise**: Construct a side-by-side boxplot of `habit` and `weight` and compare the two distributions.
@@ -233,7 +233,7 @@ Using what you have learned so far, conduct a Bayesian inference procedure to ev
 <li> weak; for </li>
 <li> strong; for </li>
 <li> weak; against </li> 
-<li> strong; againt </li> 
+<li> strong; against </li> 
 </ol>
 
 
@@ -242,7 +242,7 @@ Using what you have learned so far, conduct a Bayesian inference procedure to ev
 <li> weak; for </li>
 <li> strong; for </li>
 <li> weak; against </li> 
-<li> strong; againt </li> 
+<li> strong; against </li> 
 </ol>
 
 

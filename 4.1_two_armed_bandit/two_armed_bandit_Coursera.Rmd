@@ -119,7 +119,7 @@ $$
 
 ## Bayesian Updating
 
-We have implemented a function for calculating the posterior probability of Machine 1 and Machine 2 being the "good" machine after one or more plays of either machine. The function `bandit_posterior` expects a data frame representing your play history that contains two columns, `machine` which records which machine was played (e.g. either a 1 or 2) and `outcome` which records whether you won (`"W"`) or lost (`"L"`). We can repeat the calculation from the previous section using the following code
+We have implemented a function for calculating the posterior probability of Machine 1 and Machine 2 being the "good" machine after one or more plays of either machine. The function `bandit_posterior` expects a data frame representing your play history that contains two columns, `machine` which records which machine was played (e.g. either a 1 or 2) and `outcome` which records whether you won (`"W"`) or lost (`"L"`). An optional parameter to `bandit_posterior` is `prior`, a vector of length two that specifies the prior probability of each machine being "good".  If left unspecified, equal prior probabilities (0.5, 0.5) are assumed.  We can repeat the calculation from the previous section using the following code:
 
 ```{r}
 bandit_posterior(data = data.frame(machine=1L, outcome="W"))

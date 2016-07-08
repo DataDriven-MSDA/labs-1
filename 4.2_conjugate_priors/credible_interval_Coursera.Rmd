@@ -138,7 +138,7 @@ $$ p \,|\, x,n ~\sim~ \text{Beta}(\alpha = 1 + `r x`,~ \beta = 1 + `r n - x`) $$
 4. What is the 95% credible interval for $p$, the proportion of females in the population, based on the posterior distribution obtained with the updating rule shown above. Use the credible interval app to answer this question.
 <ol>
 <li> (0.500, 0.536) </li>
-<li> (0.504, 0.532) </li> 
+<li> (0.503, 0.531) </li> 
 <li> (0.507, 0.530) </li>
 <li> (0.468, 0.496) </li>
 </ol>

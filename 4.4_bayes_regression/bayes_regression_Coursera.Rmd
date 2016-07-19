@@ -340,8 +340,9 @@ A key advantage of Bayesian statistics is prediction and the probabilistic inter
 Suppose you observe four numerical observations of $y$, which are 2, 2, 0 and 0 respectively.  Assuming that $y \sim N(\mu, \sigma^2)$, under the reference prior $p(\mu,\sigma^2) \propto 1/\sigma^2$, our posterior becomes
 
 
-\mu|\sigma^2 \sim N(1, \sigma^2/4)
-1/\sigma^2 &sim G(\alpha = 2,\beta = 2)
+$$\mu|\sigma^2 \sim N(1, \sigma^2/4)$$
+
+$$1/\sigma^2 \sim Gamma(\alpha = 2,\beta = 2)$$
 
 We can first simulate $\sigma^2$ from its posterior and then $\mu$ followed by $y$.  Our draws of $y$ will be from the posterior predictive distribution.  The example below draws 10,000 times from the posterior predictive distribution of $y$.
 

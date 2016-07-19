@@ -405,8 +405,8 @@ output in your response.
 
 9. Which of the following is the correct intrepetation of the coefficient associated with the ethnicity variable. <br> Non-minority professors are expected on average to score ... 
 <ol>
-<li> 0.19 points lower than minority professors, all else held constant. </li>
-<li> 0.19 points higher than minority professors, all else held constant. </li> 
+<li> 0.12 points lower than minority professors, all else held constant. </li>
+<li> 0.12 points higher than minority professors, all else held constant. </li> 
 <li> 0.02 points lower than minority professors, all else held constant. </li>
 <li> 0.02 points higher than minority professors, all else held constant. </li>
 </ol>

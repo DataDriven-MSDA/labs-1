@@ -113,8 +113,6 @@ diagnostics(outliers_lwage, type="pip")
 The diagnostic plot looks better, with the larger inclusion probabilities in reasonable agreement, however, several below 0.3 could benefit from running longer. This is probably adequate for the outlier detection and implementing model averaging, however, as predicted values tend to converge faster than probabilities.
 
 <div id="exercise">
-
-
 **Exercise:**  Fit the outlier model with the reduced dataset. Create a diagnostic plot with the output and determine how many MCMC iterations are needed.  
 </div>
 

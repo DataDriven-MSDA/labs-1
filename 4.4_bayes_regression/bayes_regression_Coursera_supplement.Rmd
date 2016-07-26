@@ -59,9 +59,12 @@ This can be used to compare different prior distributions (say `BIC` versus `ZS-
 
 ## Experimental:  Outlier Detection
 
-Looking at the residual plot of observed and fitted values under BMA, 
+Looking at the residual plot of observed and fitted values under BMA using the original model fit, 
 
 ```{r residuals}
+bma_lwage = bas.lm(lwage ~ . -wage, data = wage_no_na,
+                   prior = "BIC", 
+                   modelprior = uniform())
 plot(bma_lwage, which=1)
 ```
 
@@ -84,7 +87,7 @@ outliers_lwage = bas.lm(lwage ~ . -wage, data=wage_outliers,
 
 ```
 
-This uses the `method="MCMC"` as enumeration is not feasible.  We are also introducing a truncated beta-binomial distribution on the model size.  This assigns all models with more than `n/2` coefficients a zero probability a priori which limits the number of possible outliers.  (This could be smaller, say even 16).  The `initprobs` argument helps to sort variables and makes the algorithm more efficient with the MCMC option.
+This uses the `method="MCMC"` as enumeration is not feasible.  We are also introducing a truncated beta-binomial distribution on the model size.  This assigns all models with more than `n/2` coefficients a zero probability a priori which limits the number of possible outliers.  (This could be smaller, say even 16, to prevent models with too many outliers and predictors).  The `initprobs` argument used here helps to sort variables and makes the algorithm more efficient with the MCMC option.
 
 Looking at the diagnostic plot for `MCMC`
 ```{r diag}
@@ -107,7 +110,7 @@ diagnostics(outliers_lwage, type="pip")
 
 
 
-The diagnostic plot looks better, with the larger inclusion probabilities in reasonable agreement, however, several below 0.3 could benefit from running longer.  This is probably adequate for the outlier detection and implementing model averaging, however.
+The diagnostic plot looks better, with the larger inclusion probabilities in reasonable agreement, however, several below 0.3 could benefit from running longer. This is probably adequate for the outlier detection and implementing model averaging, however, as predicted values tend to converge faster than probabilities.
 
 <div id="exercise">
 

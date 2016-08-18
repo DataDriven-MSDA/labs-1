@@ -212,8 +212,8 @@ Because of these missing values we must make an addition assumption in order for
 
 5. From the model, all else begin equal, who would you expect to make more: a married black man or a single non-black man?
 <ol>
-<li> The married southerner </li>
-<li> The single non-southerner </li> 
+<li> The married black man </li>
+<li> The single non-black man </li> 
 </ol>
 
 

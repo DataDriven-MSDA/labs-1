@@ -311,7 +311,7 @@ wage_red = wage %>%
 ```
 
 
-8. True or False: The naive model with all variables included has posterior probability greater than 0.5.
+8. True or False: The naive model with all variables included has posterior probability greater than 0.5. (Use a Zellner-Siow null prior for the coefficients and a Beta-Binomial (1,1) prior for the models)
 <ol>
 <li> True
 <li> False
@@ -319,7 +319,6 @@ wage_red = wage %>%
 
 ```{r}
 # type your code for Question 8 here, and Knit
-
 ```
 
 

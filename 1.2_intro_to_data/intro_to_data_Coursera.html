@@ -122,6 +122,7 @@ button.code-folding-btn:focus {
 </style>
 
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
@@ -294,10 +295,9 @@ $(document).ready(function () {
 <p>We can also obtain numerical summaries for these flights:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rdu_flights %&gt;%
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_dd =</span> <span class="kw">mean</span>(dep_delay), <span class="dt">sd_dd =</span> <span class="kw">sd</span>(dep_delay), <span class="dt">n =</span> <span class="kw">n</span>())</code></pre></div>
-<pre><code>## Source: local data frame [1 x 3]
-## 
+<pre><code>## # A tibble: 1 × 3
 ##    mean_dd    sd_dd     n
-##      (dbl)    (dbl) (int)
+##      &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
 ## 1 11.69913 35.55567   801</code></pre>
 <p>Note that in the <code>summarise</code> function we created a list of two elements. The names of these elements are user defined, like <code>mean_dd</code>, <code>sd_dd</code>, <code>n</code>, and you could customize these names as you like (just don’t use spaces in your names). Calculating these summary statistics also require that you know the function calls. Note that <code>n()</code> reports the sample size.</p>
 <div id="boxedtext">
@@ -363,10 +363,9 @@ More than 50% of flights arrive on time or earlier than scheduled.
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rdu_flights %&gt;%
 <span class="st">  </span><span class="kw">group_by</span>(origin) %&gt;%
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_dd =</span> <span class="kw">mean</span>(dep_delay), <span class="dt">sd_dd =</span> <span class="kw">sd</span>(dep_delay), <span class="dt">n =</span> <span class="kw">n</span>())</code></pre></div>
-<pre><code>## Source: local data frame [3 x 4]
-## 
+<pre><code>## # A tibble: 3 × 4
 ##   origin   mean_dd    sd_dd     n
-##    (chr)     (dbl)    (dbl) (int)
+##    &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
 ## 1    EWR 13.365517 32.08492   145
 ## 2    JFK 15.396667 40.30535   300
 ## 3    LGA  7.904494 32.18620   356</code></pre>
@@ -409,10 +408,9 @@ Frontier Airlines
 <span class="st">  </span><span class="kw">group_by</span>(month) %&gt;%
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_dd =</span> <span class="kw">mean</span>(dep_delay)) %&gt;%
 <span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(mean_dd))</code></pre></div>
-<pre><code>## Source: local data frame [12 x 2]
-## 
+<pre><code>## # A tibble: 12 × 2
 ##    month   mean_dd
-##    (int)     (dbl)
+##    &lt;int&gt;     &lt;dbl&gt;
 ## 1      7 20.754559
 ## 2      6 20.350293
 ## 3     12 17.368189
@@ -513,10 +511,9 @@ Both give us useful information.
 <span class="st">  </span><span class="kw">group_by</span>(origin) %&gt;%
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">ot_dep_rate =</span> <span class="kw">sum</span>(dep_type ==<span class="st"> &quot;on time&quot;</span>) /<span class="st"> </span><span class="kw">n</span>()) %&gt;%
 <span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(ot_dep_rate))</code></pre></div>
-<pre><code>## Source: local data frame [3 x 2]
-## 
+<pre><code>## # A tibble: 3 × 2
 ##   origin ot_dep_rate
-##    (chr)       (dbl)
+##    &lt;chr&gt;       &lt;dbl&gt;
 ## 1    LGA   0.7279229
 ## 2    JFK   0.6935854
 ## 3    EWR   0.6369892</code></pre>
@@ -582,9 +579,9 @@ The distribution of distances are uniform over 0 to 5000 miles.
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># type your code for Question 9 here, and Knit</span></code></pre></div>
 <ol start="10" style="list-style-type: decimal">
-<li>Suppose you define a flight to be “on time” if it gets to the destination on time or earlier than expected, regardless of any departure delays. Mutate the data frame to create a new variable called <code>arr_type</code> with levels <code>&quot;on time&quot;</code> and <code>&quot;delayed&quot;</code> based on this definition. Also mutate to create a new variable called <code>del_type</code> with levels <code>&quot;on time&quot;</code> and <code>&quot;delayed&quot;</code> depending on whether there was ny departure delay. Then, determine the on time arrival percentage based on whether the flight departed on time or not. What percent of flights that were <code>&quot;delayed&quot;</code> departing arrive <code>&quot;on time&quot;</code>? [NUMERIC INPUT]</li>
+<li>Suppose you define a flight to be “on time” if it gets to the destination on time or earlier than expected, regardless of any departure delays. Mutate the data frame to create a new variable called <code>arr_type</code> with levels <code>&quot;on time&quot;</code> and <code>&quot;delayed&quot;</code> based on this definition. Also mutate to create a new variable called <code>dep_type</code> with levels <code>&quot;on time&quot;</code> and <code>&quot;delayed&quot;</code> depending on the flight was delayed for fewer than 5 minutes or 5 minutes or more, respectively. In other words, if <code>arr_delay</code> is 0 minutes or fewer, <code>arr_type</code> is <code>&quot;on time&quot;</code>. If <code>dep_delay</code> is less than 5 minutes, <code>dep_type</code> is <code>&quot;on time&quot;</code>. Then, determine the on time arrival percentage based on whether the flight departed on time or not. What percent of flights that were <code>&quot;delayed&quot;</code> departing arrive <code>&quot;on time&quot;</code>? [NUMERIC INPUT]</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># type your code for Question 9 here, and Knit</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># type your code for Question 10 here, and Knit</span></code></pre></div>
 </div>
 </div>
 
@@ -599,6 +596,7 @@ The distribution of distances are uniform over 0 to 5000 miles.
 $(document).ready(function () {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
 });
+
 
 </script>
 

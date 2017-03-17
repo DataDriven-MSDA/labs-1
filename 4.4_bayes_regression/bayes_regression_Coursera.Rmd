@@ -340,7 +340,7 @@ Suppose you observe four numerical observations of $y$, which are 2, 2, 0 and 0 
 
 
 $$\mu|\sigma^2, y \sim N(1, \sigma^2/4)$$
-which is centerd at the sample mean and 
+which is centered at the sample mean and 
 $$1/\sigma^2, y \sim Gamma(\alpha = 3/2,\beta = 4/2)$$
 where $\alpha = (n - 1)/2$ and $\beta = s^2 (n-1)/2 = 2$.
 
